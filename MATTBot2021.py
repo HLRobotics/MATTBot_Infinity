@@ -46,6 +46,8 @@ class MATTBOT2(object):
         self.timeEdit = QtWidgets.QTimeEdit(self.tab)
         self.timeEdit.setGeometry(QtCore.QRect(10, 30, 118, 26))
         self.timeEdit.setObjectName("timeEdit")
+        #self.timeEdit.setTimeRange(QTimeEdit(3, 00, 00), QTimeEdit(23, 30, 00))
+        #self.timeEdit.setDisplayFormat('hh:mm:ss')
         self.label_12 = QtWidgets.QLabel(self.tab)
         self.label_12.setGeometry(QtCore.QRect(270, 60, 201, 16))
         self.label_12.setStyleSheet("color: rgb(204, 0, 0);")
@@ -174,6 +176,7 @@ class MATTBOT2(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "MATTBot 2021"))
         self.label.setText(_translate("Dialog", "TIME"))
+        self.timeEdit.setDisplayFormat(_translate("Dialog", "hh:mm:ss"))
         self.label_2.setText(_translate("Dialog", "REMINDER"))
         self.pushButton.setText(_translate("Dialog", "Save"))
         self.pushButton_2.setText(_translate("Dialog", "Health"))

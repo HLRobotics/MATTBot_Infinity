@@ -126,6 +126,9 @@
        <height>26</height>
       </rect>
      </property>
+     <property name="displayFormat">
+      <string>hh:mm:ss</string>
+     </property>
     </widget>
     <widget class="QLabel" name="label_12">
      <property name="geometry">
