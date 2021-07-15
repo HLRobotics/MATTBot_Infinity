@@ -14,7 +14,7 @@ class MATTBOT2(object):
         Dialog.setObjectName("Dialog")
         Dialog.resize(505, 271)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Design/MattBot.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("MattBot.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         self.tabWidget = QtWidgets.QTabWidget(Dialog)
         self.tabWidget.setGeometry(QtCore.QRect(10, 10, 481, 251))
@@ -163,7 +163,7 @@ class MATTBOT2(object):
         self.textBrowser.setObjectName("textBrowser")
         self.label_7 = QtWidgets.QLabel(self.tab_3)
         self.label_7.setGeometry(QtCore.QRect(10, 10, 191, 191))
-        self.label_7.setStyleSheet("border-image: url(Design/MattBot.png);")
+        self.label_7.setStyleSheet("border-image: url(MattBot.png);")
         self.label_7.setText("")
         self.label_7.setObjectName("label_7")
         self.tabWidget.addTab(self.tab_3, "")
@@ -247,8 +247,7 @@ class MATTBOT2(object):
             model.appendRow(item)
 
     def recurringReminders(self):
-        currentTime=self.timeEdit.text()
-        currentTime=currentTime+":00"
+        currentTime=self.timeEdit.text()        
         content_Reminder=self.lineEdit_2.text()
         Recurring_Reminders.append(currentTime)
         Recurring_Reminders.append(content_Reminder)
