@@ -1,6 +1,8 @@
 
 import time
 from HLEngine import HLEngine_audioProcess
+from FireStorage import FireCloudUpload
+from FireStorage import FireFetch
 from Seeker import timeMapper
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
@@ -230,13 +232,14 @@ class MATTBOT2(object):
 
         self.pushButton.clicked.connect(self.saveTime)
         self.pushButton_2.clicked.connect(self.recurringReminders)
+        self.pushButton_6.clicked.connect(self.Message_Sent)
 
     
 
 
     def saveTime(self):
         currentTime=self.timeEdit.text()
-        currentTime=currentTime+":00"
+        currentTime=currentTime
         content_Reminder=self.lineEdit_2.text()
         Reminders.append(currentTime)
         Reminders.append(content_Reminder)
@@ -259,7 +262,14 @@ class MATTBOT2(object):
             item = QtGui.QStandardItem(i)
             model.appendRow(item)
 
+    def Message_Sent(self):  
+        User=self.lineEdit_3.text()  
+        Message=self.lineEdit_5.text()
+        status=FireCloudUpload.fireData(User, Message)        
+        if(status==True):
+            self.textEdit.setText("[Message delivered]")
         
+            
 
     def displayTime(self):
         TimeHits=[]
