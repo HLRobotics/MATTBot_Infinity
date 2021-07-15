@@ -1,6 +1,8 @@
 
 import time
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
+global Reminders
 Reminders=[]
 
 class MATTBOT2(object):
@@ -221,8 +223,7 @@ class MATTBOT2(object):
 
         self.pushButton.clicked.connect(self.saveTime)
 
-    def displayTime(self):
-        self.label_12.setText(QtCore.QDateTime.currentDateTime().time().toString())
+    
 
 
     def saveTime(self):
@@ -231,7 +232,33 @@ class MATTBOT2(object):
         content_Reminder=self.lineEdit_2.text()
         Reminders.append(current_date)
         Reminders.append(content_Reminder)
-        #self.listView.set
+        model=QtGui.QStandardItemModel()
+        self.listView.setModel(model)
+        for i in Reminders:
+            item = QtGui.QStandardItem(i)
+            model.appendRow(item)
+        
+
+    def displayTime(self):
+        TimeHits=[]
+        ReminderHits=[]
+
+        self.label_12.setText(QtCore.QDateTime.currentDateTime().time().toString())
+       
+        for i in Reminders:
+            index=Reminders.index(i)
+            if(index%2!=0):
+                ReminderHits.append(i)
+            elif(index%2==0):
+                TimeHits.append(i)
+        TIME=self.label_12.text()       
+        if (TIME  in TimeHits):
+            reminderIndex=TimeHits.index(TIME)
+            reminderData=ReminderHits[reminderIndex]
+            msg=QMessageBox()
+            msg.setWindowTitle("MATTBOT REMINDER")
+            msg.setText(str(reminderData))
+            x = msg.exec_()
 
 if __name__ == "__main__":
     import sys
