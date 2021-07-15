@@ -1,9 +1,13 @@
 
 import time
+from HLEngine import HLEngine_audioProcess
+from Seeker import timeMapper
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 global Reminders
 Reminders=[]
+global Recurring_Reminders
+Recurring_Reminders=[]
 
 class MATTBOT2(object):
     def mattbot2(self, Dialog):
@@ -172,7 +176,7 @@ class MATTBOT2(object):
         self.label.setText(_translate("Dialog", "TIME"))
         self.label_2.setText(_translate("Dialog", "REMINDER"))
         self.pushButton.setText(_translate("Dialog", "Save"))
-        self.pushButton_2.setText(_translate("Dialog", "Recurring "))
+        self.pushButton_2.setText(_translate("Dialog", "Health"))
         self.label_12.setText(_translate("Dialog", "loading..."))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Dialog", "Reminder"))
         self.label_5.setText(_translate("Dialog", "Message"))
@@ -222,28 +226,80 @@ class MATTBOT2(object):
         self.timer.start()
 
         self.pushButton.clicked.connect(self.saveTime)
+        self.pushButton_2.clicked.connect(self.recurringReminders)
 
     
 
 
     def saveTime(self):
-        current_date=self.timeEdit.text()
-        current_date=current_date+":00"
+        currentTime=self.timeEdit.text()
+        currentTime=currentTime+":00"
         content_Reminder=self.lineEdit_2.text()
-        Reminders.append(current_date)
+        Reminders.append(currentTime)
         Reminders.append(content_Reminder)
         model=QtGui.QStandardItemModel()
         self.listView.setModel(model)
         for i in Reminders:
             item = QtGui.QStandardItem(i)
             model.appendRow(item)
+
+    def recurringReminders(self):
+        currentTime=self.timeEdit.text()
+        currentTime=currentTime+":00"
+        content_Reminder=self.lineEdit_2.text()
+        Recurring_Reminders.append(currentTime)
+        Recurring_Reminders.append(content_Reminder)
+        Reminders.append(currentTime)
+        Reminders.append(content_Reminder)
+        model=QtGui.QStandardItemModel()
+        self.listView.setModel(model)
+        for i in Reminders:
+            item = QtGui.QStandardItem(i)
+            model.appendRow(item)
+
         
 
     def displayTime(self):
         TimeHits=[]
         ReminderHits=[]
+        TimeHits2=[]
+        ReminderHits2=[]
 
         self.label_12.setText(QtCore.QDateTime.currentDateTime().time().toString())
+        TIME=self.label_12.text() 
+        if(TIME==timeMapper.nine):
+            HLEngine_audioProcess.playsound("Reminders/9am.mp3")            
+        elif(TIME==timeMapper.ten):
+            HLEngine_audioProcess.playsound("Reminders/10am.mp3")
+        elif(TIME==timeMapper.eleven):
+            HLEngine_audioProcess.playsound("Reminders/11am.mp3")
+        elif(TIME==timeMapper.twelve):
+            HLEngine_audioProcess.playsound("Reminders/12pm.mp3")
+        elif(TIME==timeMapper.thirteen):
+            HLEngine_audioProcess.playsound("Reminders/1pm.mp3")
+        elif(TIME==timeMapper.fourteen):
+            HLEngine_audioProcess.playsound("Reminders/2pm.mp3")
+        elif(TIME==timeMapper.fifteen):
+            HLEngine_audioProcess.playsound("Reminders/3pm.mp3")
+        elif(TIME==timeMapper.sixteen):
+            HLEngine_audioProcess.playsound("Reminders/4pm.mp3")
+        elif(TIME==timeMapper.seventeen):
+            HLEngine_audioProcess.playsound("Reminders/5pm.mp3")
+        elif(TIME==timeMapper.eighteen):
+            HLEngine_audioProcess.playsound("Reminders/6pm.mp3")
+        elif(TIME==timeMapper.nineteen):
+            HLEngine_audioProcess.playsound("Reminders/7pm.mp3")
+        elif(TIME==timeMapper.twenty):
+            HLEngine_audioProcess.playsound("Reminders/8pm.mp3")
+        elif(TIME==timeMapper.twentyone):
+            HLEngine_audioProcess.playsound("Reminders/9pm.mp3")
+        elif(TIME==timeMapper.twentytwo):
+            HLEngine_audioProcess.playsound("Reminders/10pm.mp3")
+        elif(TIME==timeMapper.twentythree):
+            HLEngine_audioProcess.playsound("Reminders/11pm.mp3")
+        elif(TIME==timeMapper.twentyfour):
+            HLEngine_audioProcess.playsound("Reminders/12am.mp3")
+
        
         for i in Reminders:
             index=Reminders.index(i)
@@ -251,13 +307,30 @@ class MATTBOT2(object):
                 ReminderHits.append(i)
             elif(index%2==0):
                 TimeHits.append(i)
-        TIME=self.label_12.text()       
+
+        for i in Recurring_Reminders:
+            index=Recurring_Reminders.index(i)
+            if(index%2!=0):
+                ReminderHits2.append(i)
+            elif(index%2==0):
+                TimeHits2.append(i)
+              
         if (TIME  in TimeHits):
             reminderIndex=TimeHits.index(TIME)
             reminderData=ReminderHits[reminderIndex]
             msg=QMessageBox()
             msg.setWindowTitle("MATTBOT REMINDER")
             msg.setText(str(reminderData))
+            HLEngine_audioProcess.playsound("Reminders/reminder.mp3")
+            x = msg.exec_()
+
+        if (TIME  in TimeHits2):
+            reminderIndex=TimeHits2.index(TIME)
+            reminderData=ReminderHits2[reminderIndex]
+            msg=QMessageBox()
+            msg.setWindowTitle("MATTBOT YOUR HEALTH REMINDER")
+            msg.setText(str(reminderData))
+            HLEngine_audioProcess.playsound("Reminders/water.mp3")
             x = msg.exec_()
 
 if __name__ == "__main__":
