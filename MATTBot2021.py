@@ -9,6 +9,9 @@ global Reminders
 Reminders=[]
 global Recurring_Reminders
 Recurring_Reminders=[]
+config=open('user.matt','r')
+USER=config.read()
+config.close()
 
 class MATTBOT2(object):
     def mattbot2(self, Dialog):
@@ -233,6 +236,7 @@ class MATTBOT2(object):
         self.pushButton_2.clicked.connect(self.recurringReminders)
         self.pushButton_6.clicked.connect(self.Message_Sent)
         self.pushButton_5.clicked.connect(self.GetMessage)
+        self.lineEdit_3.setText(USER)
         
 
     
@@ -263,7 +267,7 @@ class MATTBOT2(object):
             item = QtGui.QStandardItem(i)
             model.appendRow(item)
 
-    def Message_Sent(self):          
+    def Message_Sent(self):                  
         User=self.lineEdit_3.text()  
         Message=self.lineEdit_5.text()
         status=FirePlay.FireData_SEND(User, Message)     
