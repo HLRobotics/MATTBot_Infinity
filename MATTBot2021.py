@@ -1,7 +1,7 @@
 
 import time
 from HLEngine import HLEngine_audioProcess
-from HLEngine import HLEngine_communications
+#from HLEngine import HLEngine_communications
 from FireStorage import FirePlay
 from Seeker import timeMapper,user
 from PyQt5 import QtCore, QtGui, QtWidgets
