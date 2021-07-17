@@ -180,7 +180,7 @@ class MATTBOT2(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "MATTBot 2021 [APRICOT]"))
+        Dialog.setWindowTitle(_translate("Dialog", "MATTBot APRICOT BETA RELEASE"))
         self.label.setText(_translate("Dialog", "TIME"))
         self.timeEdit.setDisplayFormat(_translate("Dialog", "hh:mm:ss"))
         self.label_2.setText(_translate("Dialog", "REMINDER"))
