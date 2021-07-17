@@ -11,6 +11,7 @@ global Recurring_Reminders
 Recurring_Reminders=[]
 config=open('user.matt','r')
 USER=config.read()
+USER=USER.split(",")
 config.close()
 
 class MATTBOT2(object):
@@ -236,11 +237,23 @@ class MATTBOT2(object):
         self.pushButton_2.clicked.connect(self.recurringReminders)
         self.pushButton_6.clicked.connect(self.Message_Sent)
         self.pushButton_5.clicked.connect(self.GetMessage)
-        self.lineEdit_3.setText(USER)
+        self.pushButton_4.clicked.connect(self.save_USER)
+        self.lineEdit_3.setText(USER[0])
+        self.lineEdit_4.setText(USER[1])
+        
         
 
     
 
+    def save_USER(self):        
+        mattUser=open("user.matt","w")
+        data1=self.lineEdit_3.text()
+        data2=self.lineEdit_4.text()
+        mattUser.write(data1+",")
+        mattUser.write(data2)
+        mattUser.close()
+        self.label_6.setText("User Added. Restart MATTBot to Reflect Changes")
+        
 
     def saveTime(self):
         currentTime=self.timeEdit.text()
