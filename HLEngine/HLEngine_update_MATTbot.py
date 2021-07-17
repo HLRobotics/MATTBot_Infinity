@@ -6,15 +6,14 @@ import subprocess
 import sys
 
 def update():
-    try:       
-        print("HLEngine:updating MATTBot 2020......")
-        git_dir = "../../../MATTBot/"
+    try:
+        git_dir = "../MATTBot_2021/"
         g = git.cmd.Git(git_dir)
         g.pull()
-        return("HLEngine:MATTbot updated, reboot MATT to reflect ......")
+        return(True)
         
     except:
-        return("HLEngine:cannot connect to MATTBot Server")
+        return(False)
 
 
 

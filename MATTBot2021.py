@@ -1,6 +1,7 @@
 
 import time
 from HLEngine import HLEngine_audioProcess
+from HLEngine import HLEngine_communications
 from FireStorage import FirePlay
 from Seeker import timeMapper,user
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -179,7 +180,7 @@ class MATTBOT2(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "MATTBot 2021"))
+        Dialog.setWindowTitle(_translate("Dialog", "MATTBot 2021 [APRICOT]"))
         self.label.setText(_translate("Dialog", "TIME"))
         self.timeEdit.setDisplayFormat(_translate("Dialog", "hh:mm:ss"))
         self.label_2.setText(_translate("Dialog", "REMINDER"))
@@ -203,8 +204,8 @@ class MATTBOT2(object):
         self.label_10.setText(_translate("Dialog", "0"))
         self.label_11.setText(_translate("Dialog", "0"))
         self.pushButton_7.setText(_translate("Dialog", "Security"))
-        self.lineEdit.setText(_translate("Dialog", "192.168.1.20"))
-        self.label_13.setText(_translate("Dialog", "IP:"))
+        self.lineEdit.setText(_translate("Dialog", "protocol"))
+        self.label_13.setText(_translate("Dialog", "#:"))
         self.comboBox_2.setItemText(0, _translate("Dialog", "IP"))
         self.comboBox_2.setItemText(1, _translate("Dialog", "Serial"))
         self.pushButton_8.setText(_translate("Dialog", "Fan ON"))
@@ -222,9 +223,11 @@ class MATTBOT2(object):
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">HL Dynamic Integration Technologies 2021</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">hlroboticsautomation@gmail.com</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Last updated: 15th July 2021</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Developed by:</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">HLRobotics & Automation 2021</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Visit-www.hlengine.tech</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Last updated: 18th July 2021</p>\n"
+
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("Dialog", "About"))
 
@@ -238,12 +241,14 @@ class MATTBOT2(object):
         self.pushButton_6.clicked.connect(self.Message_Sent)
         self.pushButton_5.clicked.connect(self.GetMessage)
         self.pushButton_4.clicked.connect(self.save_USER)
-        self.lineEdit_3.setText(USER[0])
-        self.lineEdit_4.setText(USER[1])
-        
-        
+        self.pushButton_3.clicked.connect(self.update)
+        try:
+            self.lineEdit_3.setText(USER[0])
+            self.lineEdit_4.setText(USER[1])
+        except:
+            self.lineEdit_3.setText("Enter your NAME")
+            self.lineEdit_4.setText("Enter your mail ID")
 
-    
 
     def save_USER(self):        
         mattUser=open("user.matt","w")
@@ -252,8 +257,33 @@ class MATTBOT2(object):
         mattUser.write(data1+",")
         mattUser.write(data2)
         mattUser.close()
-        self.label_6.setText("User Added. Restart MATTBot to Reflect Changes")
         
+        self.label_6.setText("User Added. Restart MATTBot to Reflect Changes")
+
+    def update(self):
+        try:
+            import git
+            import cv2
+            import subprocess
+            import sys     
+            self.progressBar.setProperty("value", 25)   
+            
+            git_dir = "../MATTBot_APRICOT/"
+            g = git.cmd.Git(git_dir)
+            g.pull()
+            self.progressBar.setProperty("value", 70)
+            self.label_6.setText("*Updated Successfully, Please Restart MATTBOT APRICOT")
+            self.progressBar.setProperty("value", 100)
+        except:
+            self.label_6.setText("*Failed to Update MATTBOT APRICOT")
+            self.progressBar.setProperty("value", 0)
+            
+        
+    def Device(self):
+        selection=self.comboBox_2.currentText() 
+        if(selection=='Serial'):
+            PORT=HLEngine_communications.find_Port()    
+            self.lineEdit.setText(str(PORT))
 
     def saveTime(self):
         currentTime=self.timeEdit.text()
@@ -280,17 +310,27 @@ class MATTBOT2(object):
             item = QtGui.QStandardItem(i)
             model.appendRow(item)
 
-    def Message_Sent(self):                  
-        User=self.lineEdit_3.text()  
-        Message=self.lineEdit_5.text()
-        status=FirePlay.FireData_SEND(User, Message)     
-        if(status==True):
-            self.textEdit.setText("[Message delivered]")
+    def Message_Sent(self):      
+        reciever=self.comboBox.currentText()    
+        if(reciever=="Bot"):   
+            self.textEdit.setText("[Still on Development]")
+            
+        elif(reciever=="Unity"):
+            User=self.lineEdit_3.text()  
+            Message=self.lineEdit_5.text()
+            status=FirePlay.FireData_SEND(User, Message)     
+            if(status==True):
+                self.textEdit.setText("[Message delivered]")
+
     
     def GetMessage(self):
-        message=FirePlay.FireData_RECIEVE()
-        print(message)
-        self.textEdit.setText(str(message))
+        reciever=self.comboBox.currentText()    
+        if(reciever=="Bot"):   
+            self.textEdit.setText("[Still on Development]")
+        elif(reciever=="Unity"):
+            message=FirePlay.FireData_RECIEVE()
+            print(message)
+            self.textEdit.setText(str(message))
             
 
     def displayTime(self):
