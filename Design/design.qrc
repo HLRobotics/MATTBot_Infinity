@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="logo">
+    <file>HLD.png</file>
     <file>MattBot.png</file>
   </qresource>
 </RCC>

@@ -197,7 +197,7 @@ class MATTBOT2(object):
         self.pushButton_5.setText(_translate("Dialog", "Refresh"))
         self.pushButton_6.setText(_translate("Dialog", "Send"))
         self.comboBox.setItemText(0, _translate("Dialog", "Bot"))
-        self.comboBox.setItemText(1, _translate("Dialog", "Unity"))
+        self.comboBox.setItemText(1, _translate("Dialog", "-"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Dialog", "Messenger"))
         self.label_8.setText(_translate("Dialog", "Speed"))
         self.label_9.setText(_translate("Dialog", "Light"))
@@ -279,11 +279,7 @@ class MATTBOT2(object):
             self.progressBar.setProperty("value", 0)
             
         
-    def Device(self):
-        selection=self.comboBox_2.currentText() 
-        if(selection=='Serial'):
-            PORT=HLEngine_communications.find_Port()    
-            self.lineEdit.setText(str(PORT))
+   
 
     def saveTime(self):
         currentTime=self.timeEdit.text()
