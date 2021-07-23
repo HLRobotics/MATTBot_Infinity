@@ -1,7 +1,7 @@
 
 import time
 from HLEngine import HLEngine_audioProcess
-#from HLEngine import HLEngine_communications
+import requests
 from FireStorage import FirePlay
 from Seeker import timeMapper,user
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -201,16 +201,16 @@ class MATTBOT2(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Dialog", "Messenger"))
         self.label_8.setText(_translate("Dialog", "Speed"))
         self.label_9.setText(_translate("Dialog", "Light"))
-        self.label_10.setText(_translate("Dialog", "0"))
-        self.label_11.setText(_translate("Dialog", "0"))
-        self.pushButton_7.setText(_translate("Dialog", "Security"))
-        self.lineEdit.setText(_translate("Dialog", "protocol"))
+        self.label_10.setText(_translate("Dialog", "100"))
+        self.label_11.setText(_translate("Dialog", "100"))
+        self.pushButton_7.setText(_translate("Dialog", "SEND"))
+        self.lineEdit.setText(_translate("Dialog", "192.168.1.8"))
         self.label_13.setText(_translate("Dialog", "#:"))
         self.comboBox_2.setItemText(0, _translate("Dialog", "IP"))
         self.comboBox_2.setItemText(1, _translate("Dialog", "Serial"))
-        self.pushButton_8.setText(_translate("Dialog", "Fan ON"))
-        self.pushButton_9.setText(_translate("Dialog", "Fan OFF"))
-        self.pushButton_10.setText(_translate("Dialog", "Light ON"))
+        self.pushButton_8.setText(_translate("Dialog", "FAN ON"))
+        self.pushButton_9.setText(_translate("Dialog", "FAN OFF"))
+        self.pushButton_10.setText(_translate("Dialog", "LIGHTS ON"))
         self.pushButton_11.setText(_translate("Dialog", "LIGHTS OFF"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), _translate("Dialog", "MATTWare"))
         self.label_3.setText(_translate("Dialog", "*Name"))
@@ -235,6 +235,15 @@ class MATTBOT2(object):
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.displayTime)
         self.timer.start()
+        self.dial_2.setMaximum(100)
+        self.dial_2.setMinimum(0)
+        self.dial_2.setValue(100)
+        self.dial_2.valueChanged.connect(self.lightAnalog)
+
+        self.dial_3.setMaximum(100)
+        self.dial_3.setMinimum(0)
+        self.dial_3.setValue(100)
+        self.dial_3.valueChanged.connect(self.fanAnalog)
 
         self.pushButton.clicked.connect(self.saveTime)
         self.pushButton_2.clicked.connect(self.recurringReminders)
@@ -242,6 +251,11 @@ class MATTBOT2(object):
         self.pushButton_5.clicked.connect(self.GetMessage)
         self.pushButton_4.clicked.connect(self.save_USER)
         self.pushButton_3.clicked.connect(self.update)
+        self.pushButton_8.clicked.connect(self.fanON)
+        self.pushButton_9.clicked.connect(self.fanOFF)
+        self.pushButton_10.clicked.connect(self.lightsON)
+        self.pushButton_11.clicked.connect(self.lightsOFF)
+        self.pushButton_7.clicked.connect(self.Send)
         try:
             self.lineEdit_3.setText(USER[0])
             self.lineEdit_4.setText(USER[1])
@@ -249,6 +263,118 @@ class MATTBOT2(object):
             self.lineEdit_3.setText("Enter your NAME")
             self.lineEdit_4.setText("Enter your mail ID")
 
+    def fanON(self):
+        protocol=self.comboBox_2.currentText()
+        if(protocol=='IP'):
+            ip=self.lineEdit.text()
+            URL="http://"+ip+"/MOTOR=ON/"
+            try:
+                r = requests.post(url = URL)
+            except:
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Cooler On"))       
+                x = msg.exec_()
+
+    def fanOFF(self):
+        protocol=self.comboBox_2.currentText()
+        if(protocol=='IP'):
+            ip=self.lineEdit.text()
+            URL="http://"+ip+"/MOTOR=OFF/"
+            try:
+                r = requests.post(url = URL)
+            except:
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Cooler Off"))       
+                x = msg.exec_()
+                
+    def lightsON(self):
+        protocol=self.comboBox_2.currentText()
+        if(protocol=='IP'):
+            ip=self.lineEdit.text()
+            URL="http://"+ip+"/LED=ON/"
+            try:
+                r = requests.post(url = URL)
+            except:
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Lights On"))       
+                x = msg.exec_()
+
+    def lightsOFF(self):
+        protocol=self.comboBox_2.currentText()
+        if(protocol=='IP'):
+            ip=self.lineEdit.text()
+            URL="http://"+ip+"/LED=OFF/"
+            try:
+                r = requests.post(url = URL)
+            except:
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Lights Off"))       
+                x = msg.exec_()
+
+
+    def lightAnalog(self):
+        IntensityData=self.dial_2.value()    
+        self.label_10.setText(str(IntensityData))    
+        
+    
+    def fanAnalog(self):
+        SpeedData=self.dial_3.value()
+        self.label_11.setText(str(SpeedData))
+
+    def Send(self):
+        protocol=self.comboBox_2.currentText()
+        if(protocol=='IP'):
+            IntensityData=self.dial_2.value() 
+            SpeedData=self.dial_3.value() 
+            if(IntensityData<=100 and IntensityData>75):
+                intensity=100   
+                config="/L100/"         
+            elif(IntensityData<=75 and IntensityData>50):
+                intensity=75
+                config="/L75/" 
+            elif(IntensityData<=50 and IntensityData>25):
+                intensity=50
+                config="/L50/" 
+            elif(IntensityData<=50 and IntensityData>0):
+                intensity=25
+                config="/L25/" 
+            
+            if(SpeedData<=100 and SpeedData>75):
+                Speed=100 
+                configFan="/M100/"            
+            elif(SpeedData<=75 and SpeedData>50):
+                Speed=75
+                configFan="/M75/" 
+            elif(SpeedData<=50 and SpeedData>25):
+                Speed=50
+                configFan="/M50/" 
+            elif(SpeedData<=50 and SpeedData>0):
+                Speed=25
+                configFan="/M25/" 
+
+            ip=self.lineEdit.text()        
+            URL="http://"+ip+config
+            try:
+                r = requests.post(url = URL)
+            except:
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Cooler Speed "+str(Speed))+"%")       
+                x = msg.exec_()
+            URL="http://"+ip+configFan
+            try:
+                r = requests.post(url = URL)
+            except:
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Lights Brightness "+str(intensity))+"%")       
+                x = msg.exec_()
+
+        
 
     def save_USER(self):        
         mattUser=open("user.matt","w")
@@ -257,7 +383,10 @@ class MATTBOT2(object):
         mattUser.write(data1+",")
         mattUser.write(data2)
         mattUser.close()
-        
+        msg=QMessageBox()
+        msg.setWindowTitle("MATTBOT")
+        msg.setText(str("Added New User"))       
+        x = msg.exec_()
         self.label_6.setText("User Added. Restart MATTBot to Reflect Changes")
 
     def update(self):
@@ -274,7 +403,15 @@ class MATTBOT2(object):
             self.progressBar.setProperty("value", 70)
             self.label_6.setText("*Updated Successfully, Please Restart MATTBOT APRICOT")
             self.progressBar.setProperty("value", 100)
+            msg=QMessageBox()
+            msg.setWindowTitle("MATTBOT")
+            msg.setText(str("Updated Successfully !!!"))       
+            x = msg.exec_()
         except:
+            msg=QMessageBox()
+            msg.setWindowTitle("MATTBOT")
+            msg.setText(str("FAILED to update !!!"))       
+            x = msg.exec_()
             self.label_6.setText("*Failed to Update MATTBOT APRICOT")
             self.progressBar.setProperty("value", 0)
             
