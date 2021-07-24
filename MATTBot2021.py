@@ -1,6 +1,7 @@
 
 import time
 from HLEngine import HLEngine_audioProcess
+from HLEngine import HLEngine_wiki
 import requests
 from FireStorage import FirePlay
 from Seeker import timeMapper,user
@@ -197,14 +198,14 @@ class MATTBOT2(object):
         self.pushButton_5.setText(_translate("Dialog", "Refresh"))
         self.pushButton_6.setText(_translate("Dialog", "Send"))
         self.comboBox.setItemText(0, _translate("Dialog", "Bot"))
-        self.comboBox.setItemText(1, _translate("Dialog", "-"))
+        self.comboBox.setItemText(1, _translate("Dialog", "Unity"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Dialog", "Messenger"))
         self.label_8.setText(_translate("Dialog", "Speed"))
         self.label_9.setText(_translate("Dialog", "Light"))
         self.label_10.setText(_translate("Dialog", "100"))
         self.label_11.setText(_translate("Dialog", "100"))
         self.pushButton_7.setText(_translate("Dialog", "SEND"))
-        self.lineEdit.setText(_translate("Dialog", "192.168.1.8"))
+        self.lineEdit.setText(_translate("Dialog", "192.168.1.2"))
         self.label_13.setText(_translate("Dialog", "#:"))
         self.comboBox_2.setItemText(0, _translate("Dialog", "IP"))
         self.comboBox_2.setItemText(1, _translate("Dialog", "Serial"))
@@ -446,7 +447,9 @@ class MATTBOT2(object):
     def Message_Sent(self):      
         reciever=self.comboBox.currentText()    
         if(reciever=="Bot"):   
-            self.textEdit.setText("[Still on Development]")
+            query=self.lineEdit_5.text()
+            response=HLEngine_wiki.wiki(query)
+            self.textEdit.setText(response)
             
         elif(reciever=="Unity"):
             User=self.lineEdit_3.text()  
