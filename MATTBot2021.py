@@ -181,7 +181,7 @@ class MATTBOT2(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "MATTBot APRICOT BETA RELEASE"))
+        Dialog.setWindowTitle(_translate("Dialog", "MATTBot APRICOT 2021"))
         self.label.setText(_translate("Dialog", "TIME"))
         self.timeEdit.setDisplayFormat(_translate("Dialog", "hh:mm:ss"))
         self.label_2.setText(_translate("Dialog", "REMINDER"))
@@ -205,7 +205,7 @@ class MATTBOT2(object):
         self.label_10.setText(_translate("Dialog", "100"))
         self.label_11.setText(_translate("Dialog", "100"))
         self.pushButton_7.setText(_translate("Dialog", "SEND"))
-        self.lineEdit.setText(_translate("Dialog", "192.168.1.2"))
+        self.lineEdit.setText(_translate("Dialog", "MATTWare IP here"))
         self.label_13.setText(_translate("Dialog", "#:"))
         self.comboBox_2.setItemText(0, _translate("Dialog", "IP"))
         self.comboBox_2.setItemText(1, _translate("Dialog", "Serial"))
@@ -227,7 +227,7 @@ class MATTBOT2(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Developed by:</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">HLRobotics & Automation 2021</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Visit-www.hlengine.tech</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Last updated: 18th July 2021</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Last updated: 25th July 2021</p>\n"
 
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("Dialog", "About"))
@@ -398,7 +398,7 @@ class MATTBOT2(object):
             import sys     
             self.progressBar.setProperty("value", 25)   
             
-            git_dir = "../MATTBot_APRICOT/"
+            git_dir = "../MATTBot_2021/"
             g = git.cmd.Git(git_dir)
             g.pull()
             self.progressBar.setProperty("value", 70)
@@ -411,7 +411,7 @@ class MATTBOT2(object):
         except:
             msg=QMessageBox()
             msg.setWindowTitle("MATTBOT")
-            msg.setText(str("FAILED to update !!!"))       
+            msg.setText(str("Updates Denied !!!"))       
             x = msg.exec_()
             self.label_6.setText("*Failed to Update MATTBOT APRICOT")
             self.progressBar.setProperty("value", 0)
