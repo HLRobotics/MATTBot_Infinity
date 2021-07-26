@@ -32,7 +32,7 @@ data=reminderfile.read()
 Reminders=data.split(" ")
 Reminders.remove("")
 reminderfile.close()
-
+HLEngine_audioProcess.playAudio("Reminders\Welcome.mp3")
 
 
 class MATTBot(object):
