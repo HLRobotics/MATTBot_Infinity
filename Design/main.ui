@@ -26,6 +26,9 @@
      <height>251</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <property name="currentIndex">
     <number>0</number>
    </property>
@@ -42,6 +45,9 @@
        <height>17</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(85, 0, 255);</string>
+     </property>
      <property name="text">
       <string>TIME</string>
      </property>
@@ -56,7 +62,7 @@
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">color: rgb(52, 101, 164);</string>
+      <string notr="true">color: rgb(0, 0, 255);</string>
      </property>
      <property name="text">
       <string>REMINDER</string>
@@ -75,22 +81,6 @@
       <string notr="true">color: rgb(164, 0, 0);</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>60</y>
-       <width>111</width>
-       <height>25</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
-     <property name="text">
-      <string>Save</string>
-     </property>
-    </widget>
     <widget class="QListView" name="listView">
      <property name="geometry">
       <rect>
@@ -107,14 +97,14 @@
     <widget class="QPushButton" name="pushButton_2">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>260</x>
        <y>60</y>
        <width>111</width>
        <height>25</height>
       </rect>
      </property>
      <property name="text">
-      <string>Recurring </string>
+      <string>Clear All</string>
      </property>
     </widget>
     <widget class="QTimeEdit" name="timeEdit">
@@ -122,7 +112,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>118</width>
+       <width>121</width>
        <height>26</height>
       </rect>
      </property>
@@ -133,17 +123,44 @@
     <widget class="QLabel" name="label_12">
      <property name="geometry">
       <rect>
-       <x>270</x>
+       <x>380</x>
        <y>60</y>
-       <width>201</width>
+       <width>91</width>
        <height>16</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">color: rgb(204, 0, 0);</string>
+      <string notr="true">color: rgb(204, 0, 0);
+font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
       <string>10:10:10</string>
+     </property>
+    </widget>
+    <widget class="QDateEdit" name="dateEdit">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>121</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>60</y>
+       <width>111</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>Save</string>
      </property>
     </widget>
    </widget>
@@ -193,8 +210,8 @@
       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Ubuntu'; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_5">
@@ -326,20 +343,23 @@ p, li { white-space: pre-wrap; }
       </rect>
      </property>
      <property name="text">
-      <string>Security</string>
+      <string>f(x)</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit">
      <property name="geometry">
       <rect>
-       <x>40</x>
+       <x>160</x>
        <y>180</y>
        <width>161</width>
        <height>25</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(85, 0, 255);</string>
+     </property>
      <property name="text">
-      <string>192.168.1.20</string>
+      <string>MATTWare Address Here</string>
      </property>
     </widget>
     <widget class="QDial" name="dial_3">
@@ -357,12 +377,15 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>10</x>
        <y>180</y>
-       <width>31</width>
+       <width>131</width>
        <height>17</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 0, 0);</string>
+     </property>
      <property name="text">
-      <string>IP:</string>
+      <string>*Protocol Address:</string>
      </property>
     </widget>
     <widget class="QComboBox" name="comboBox_2">
@@ -561,11 +584,15 @@ p, li { white-space: pre-wrap; }
       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;HL Dynamic Integration Technologies 2021&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;hlroboticsautomation@gmail.com&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Last updated: 15th July 2021&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Freeware Developed by:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;HL Robotics &amp;amp;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Software Automation 2021&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;www.hlengine.tech&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;akhil.pj007@gmail.com&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Address:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Puthupparampil House&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Manjadi P.O Thiruvalla 689105&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_7">
