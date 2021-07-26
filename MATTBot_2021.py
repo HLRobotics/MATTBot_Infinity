@@ -35,6 +35,7 @@ reminderfile.close()
 HLEngine_audioProcess.playAudio("Reminders\Welcome.mp3")
 
 
+
 class MATTBot(object):
     def mattbot(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -202,6 +203,7 @@ class MATTBot(object):
         self.label_7.setText("")
         self.label_7.setObjectName("label_7")
         self.tabWidget.addTab(self.tab_3, "")
+        
 
         self.retranslateUi(Dialog)
         self.tabWidget.setCurrentIndex(0)
@@ -287,6 +289,7 @@ class MATTBot(object):
         self.pushButton_10.clicked.connect(self.lightsON)
         self.pushButton_11.clicked.connect(self.lightsOFF)
         self.pushButton_7.clicked.connect(self.Send)
+        self.dateEdit.setDate(QDate.currentDate())
         try:
             self.lineEdit_3.setText(USER[0])
             self.lineEdit_4.setText(USER[1])
@@ -545,7 +548,7 @@ class MATTBot(object):
         ReminderHits=[]
         TimeHits2=[]
         ReminderHits2=[]
-        self.dateEdit.setDate(QDate.currentDate())
+        
         
         self.label_12.setText(QtCore.QDateTime.currentDateTime().time().toString())
         TIME=self.label_12.text() 
