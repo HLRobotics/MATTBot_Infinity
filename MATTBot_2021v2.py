@@ -2,6 +2,8 @@
 Developed by:Akhil P Jacob
 HLRobotics and Software Automation 2021
 '''
+
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QDate
@@ -14,6 +16,7 @@ from Seeker import timeMapper
 global Reminders
 global Recurring_Reminders
 Recurring_Reminders=[]
+dataViewer=[]
 config=open('user.matt','r')
 USER=config.read()
 USER=USER.split(",")
@@ -30,14 +33,12 @@ Reminders.remove("")
 reminderfile.close()
 HLEngine_audioProcess.playAudio("Reminders\Welcome.mp3")
 
-
-
-class MATTBot(object):
-    def mattbot(self, Dialog):
+class MATTBOTv2(object):
+    def mattbotv2(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(505, 271)
+        Dialog.resize(505, 270)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("MattBot.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("Design/MattBot.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         self.tabWidget = QtWidgets.QTabWidget(Dialog)
         self.tabWidget.setGeometry(QtCore.QRect(10, 10, 481, 251))
@@ -62,13 +63,13 @@ class MATTBot(object):
         self.listView.setStyleSheet("color: rgb(164, 0, 0);")
         self.listView.setObjectName("listView")
         self.pushButton_2 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_2.setGeometry(QtCore.QRect(260, 60, 111, 25))
+        self.pushButton_2.setGeometry(QtCore.QRect(360, 60, 111, 25))
         self.pushButton_2.setObjectName("pushButton_2")
         self.timeEdit = QtWidgets.QTimeEdit(self.tab)
         self.timeEdit.setGeometry(QtCore.QRect(10, 30, 121, 26))
         self.timeEdit.setObjectName("timeEdit")
         self.label_12 = QtWidgets.QLabel(self.tab)
-        self.label_12.setGeometry(QtCore.QRect(380, 60, 91, 16))
+        self.label_12.setGeometry(QtCore.QRect(370, 10, 91, 16))
         self.label_12.setStyleSheet("color: rgb(204, 0, 0);\n"
 "font: 75 8pt \"MS Shell Dlg 2\";")
         self.label_12.setObjectName("label_12")
@@ -79,6 +80,9 @@ class MATTBot(object):
         self.pushButton.setGeometry(QtCore.QRect(140, 60, 111, 25))
         self.pushButton.setStyleSheet("")
         self.pushButton.setObjectName("pushButton")
+        self.pushButton_3 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_3.setGeometry(QtCore.QRect(260, 60, 91, 25))
+        self.pushButton_3.setObjectName("pushButton_3")
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
@@ -101,7 +105,9 @@ class MATTBot(object):
         self.pushButton_6.setObjectName("pushButton_6")
         self.comboBox = QtWidgets.QComboBox(self.tab_2)
         self.comboBox.setGeometry(QtCore.QRect(360, 20, 111, 25))
+        self.comboBox.setStyleSheet("color: rgb(32, 74, 135);")
         self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.tabWidget.addTab(self.tab_2, "")
@@ -171,22 +177,20 @@ class MATTBot(object):
         self.label_4 = QtWidgets.QLabel(self.tab_4)
         self.label_4.setGeometry(QtCore.QRect(20, 50, 67, 17))
         self.label_4.setObjectName("label_4")
-        '''
-        self.pushButton_3 = QtWidgets.QPushButton(self.tab_4)
-        self.pushButton_3.setGeometry(QtCore.QRect(90, 120, 351, 25))
-        self.pushButton_3.setObjectName("pushButton_3")
-        
-        self.progressBar = QtWidgets.QProgressBar(self.tab_4)
-        self.progressBar.setGeometry(QtCore.QRect(10, 160, 451, 23))
-        self.progressBar.setProperty("value", 24)
-        self.progressBar.setObjectName("progressBar")
-        '''
         self.pushButton_4 = QtWidgets.QPushButton(self.tab_4)
-        self.pushButton_4.setGeometry(QtCore.QRect(90, 90, 351, 25))
+        self.pushButton_4.setGeometry(QtCore.QRect(90, 160, 351, 25))
         self.pushButton_4.setObjectName("pushButton_4")
-        self.label_6 = QtWidgets.QLabel(self.tab_4)
-        self.label_6.setGeometry(QtCore.QRect(20, 190, 411, 17))
-        self.label_6.setObjectName("label_6")
+        self.checkBox = QtWidgets.QCheckBox(self.tab_4)
+        self.checkBox.setGeometry(QtCore.QRect(90, 80, 341, 23))
+        self.checkBox.setStyleSheet("color: rgb(32, 74, 135);")
+        self.checkBox.setObjectName("checkBox")
+        self.comboBox_3 = QtWidgets.QComboBox(self.tab_4)
+        self.comboBox_3.setGeometry(QtCore.QRect(90, 120, 351, 25))
+        self.comboBox_3.setObjectName("comboBox_3")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
         self.tabWidget.addTab(self.tab_4, "")
         self.tab_3 = QtWidgets.QWidget()
         self.tab_3.setObjectName("tab_3")
@@ -195,25 +199,87 @@ class MATTBot(object):
         self.textBrowser.setObjectName("textBrowser")
         self.label_7 = QtWidgets.QLabel(self.tab_3)
         self.label_7.setGeometry(QtCore.QRect(10, 10, 191, 191))
-        self.label_7.setStyleSheet("border-image: url(MattBot.png);")
+        self.label_7.setStyleSheet("border-image: url(Design/MattBot.png);")
         self.label_7.setText("")
         self.label_7.setObjectName("label_7")
         self.tabWidget.addTab(self.tab_3, "")
-        
 
+
+        self.timer = QtCore.QTimer(Dialog)
+        self.timer.setInterval(1000)
+        self.timer.timeout.connect(self.displayTime)
+        self.timer.start()
+
+        self.dial_2.setMaximum(100)
+        self.dial_2.setMinimum(0)
+        self.dial_2.setValue(100)
+        self.dial_2.valueChanged.connect(self.lightAnalog)
+
+        self.dial_3.setMaximum(100)
+        self.dial_3.setMinimum(0)
+        self.dial_3.setValue(100)
+        self.dial_3.valueChanged.connect(self.fanAnalog)
+
+        self.pushButton.clicked.connect(self.saveTime)
+        self.pushButton_2.clicked.connect(self.clear)
+        self.pushButton_6.clicked.connect(self.Message_Sent)
+        self.pushButton_5.clicked.connect(self.GetMessage)
+        self.pushButton_4.clicked.connect(self.save_USER)
+        self.pushButton_3.clicked.connect(self.delete)
+        self.pushButton_8.clicked.connect(self.fanON)
+        self.pushButton_9.clicked.connect(self.fanOFF)
+        self.pushButton_10.clicked.connect(self.lightsON)
+        self.pushButton_11.clicked.connect(self.lightsOFF)
+        self.pushButton_7.clicked.connect(self.Send)
+        self.dateEdit.setDate(QDate.currentDate())
+        try:
+            self.lineEdit_3.setText(USER[0])
+            self.lineEdit_4.setText(USER[1])
+        except:
+            self.lineEdit_3.setText("Enter your NAME")
+            self.lineEdit_4.setText("Enter your mail ID")
+
+        model=QtGui.QStandardItemModel()
+        self.listView.setModel(model)
+        global b1
+        global a1
+        a1=0
+        b1=0
+        a="0"
+        b="0"
+        for i in Reminders:
+                if(Reminders.index(i)%2==0):
+                        a=str(i)       
+                if(Reminders.index(i)%2!=0):
+                        b=str(i)
+        
+                if(a!="0" and b!="0" and b!=b1 and a1!=a):
+                        val=a+"-->"+b
+                        if(val in dataViewer):
+                                a="0"
+                                b="0"                                
+                                pass
+                        else:
+                                b1=b
+                                a1=a
+                                dataViewer.append(val)
+        for i in dataViewer:
+                item = QtGui.QStandardItem(i)
+                model.appendRow(item)
         self.retranslateUi(Dialog)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "MATTBot 2021"))
+        Dialog.setWindowTitle(_translate("Dialog", "MATTBot 2021 ver 2.0"))
         self.label.setText(_translate("Dialog", "TIME"))
         self.label_2.setText(_translate("Dialog", "REMINDER"))
         self.pushButton_2.setText(_translate("Dialog", "Clear All"))
         self.timeEdit.setDisplayFormat(_translate("Dialog", "hh:mm:ss"))
-        self.label_12.setText(_translate("Dialog", "loading ...."))
+        self.label_12.setText(_translate("Dialog", "loading..."))
         self.pushButton.setText(_translate("Dialog", "Save"))
+        self.pushButton_3.setText(_translate("Dialog", "Delete"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Dialog", "Reminder"))
         self.label_5.setText(_translate("Dialog", "Message"))
         self.textEdit.setHtml(_translate("Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -223,8 +289,9 @@ class MATTBot(object):
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Ubuntu\'; font-size:11pt;\"><br /></p></body></html>"))
         self.pushButton_5.setText(_translate("Dialog", "Refresh"))
         self.pushButton_6.setText(_translate("Dialog", "Send"))
-        self.comboBox.setItemText(0, _translate("Dialog", "Bot"))
-        self.comboBox.setItemText(1, _translate("Dialog", "Unity"))
+        self.comboBox.setItemText(0, _translate("Dialog", "BOT"))
+        self.comboBox.setItemText(1, _translate("Dialog", "LAN"))
+        self.comboBox.setItemText(2, _translate("Dialog", "UNITY"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Dialog", "Messenger"))
         self.label_8.setText(_translate("Dialog", "Speed"))
         self.label_9.setText(_translate("Dialog", "Light"))
@@ -242,9 +309,12 @@ class MATTBot(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), _translate("Dialog", "MATTWare"))
         self.label_3.setText(_translate("Dialog", "*Name"))
         self.label_4.setText(_translate("Dialog", "*Email"))
-        #self.pushButton_3.setText(_translate("Dialog", "Check for Updates"))
         self.pushButton_4.setText(_translate("Dialog", "Save"))
-        self.label_6.setText(_translate("Dialog", "*update will be reflected after restarting MATTBot 2021"))
+        self.checkBox.setText(_translate("Dialog", "Enable Vocal Content Alert"))
+        self.comboBox_3.setItemText(0, _translate("Dialog", "Select OS"))
+        self.comboBox_3.setItemText(1, _translate("Dialog", "Windows OS"))
+        self.comboBox_3.setItemText(2, _translate("Dialog", "Linux OS"))
+        self.comboBox_3.setItemText(3, _translate("Dialog", "MAC OS"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("Dialog", "Settings"))
         self.textBrowser.setHtml(_translate("Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -259,50 +329,6 @@ class MATTBot(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Puthupparampil House</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Manjadi P.O Thiruvalla 689105</span></p></body></html>"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("Dialog", "About"))
-
-        self.timer = QtCore.QTimer(Dialog)
-        self.timer.setInterval(1000)
-        self.timer.timeout.connect(self.displayTime)
-        self.timer.start()
-        self.dial_2.setMaximum(100)
-        self.dial_2.setMinimum(0)
-        self.dial_2.setValue(100)
-        self.dial_2.valueChanged.connect(self.lightAnalog)
-
-        self.dial_3.setMaximum(100)
-        self.dial_3.setMinimum(0)
-        self.dial_3.setValue(100)
-        self.dial_3.valueChanged.connect(self.fanAnalog)
-
-        self.pushButton.clicked.connect(self.saveTime)
-        self.pushButton_2.clicked.connect(self.clear)
-        self.pushButton_6.clicked.connect(self.Message_Sent)
-        self.pushButton_5.clicked.connect(self.GetMessage)
-        self.pushButton_4.clicked.connect(self.save_USER)
-        #self.pushButton_3.clicked.connect(self.update)
-        self.pushButton_8.clicked.connect(self.fanON)
-        self.pushButton_9.clicked.connect(self.fanOFF)
-        self.pushButton_10.clicked.connect(self.lightsON)
-        self.pushButton_11.clicked.connect(self.lightsOFF)
-        self.pushButton_7.clicked.connect(self.Send)
-        self.dateEdit.setDate(QDate.currentDate())
-        try:
-            self.lineEdit_3.setText(USER[0])
-            self.lineEdit_4.setText(USER[1])
-        except:
-            self.lineEdit_3.setText("Enter your NAME")
-            self.lineEdit_4.setText("Enter your mail ID")
-
-        model=QtGui.QStandardItemModel()
-        self.listView.setModel(model)
-        for i in Reminders:
-            item = QtGui.QStandardItem(i)
-            model.appendRow(item)
-                
-        
-        
-
-       
 
 
     def fanON(self):
@@ -456,10 +482,43 @@ class MATTBot(object):
             self.label_6.setText("*Failed to Update MATTBOT APRICOT")
             self.progressBar.setProperty("value", 0)
             
+    def delete(self):
+           
+        print(dataViewer)        
+        model=QtGui.QStandardItemModel()                
+        data=self.lineEdit_2.text()
+        indexOf=dataViewer.index(data)
+        dataViewer.remove(data)
+        for i in dataViewer:
+                item = QtGui.QStandardItem(i)
+                model.appendRow(item)
+        try:
+                Reminders.pop(indexOf)  
+                Dates.pop(indexOf)
+                indexOf=indexOf+1
+                Reminders.pop(indexOf)
+                reminder_file=open('reminders.matt','w')
+                for i in Reminders:
+                        reminder_file.write(i)
+                        reminder_file.write(" ")                
+                reminder_file.close()  
+                date_file=open('date.matt','w')
+                for i in Dates:
+                        date_file.write(i)
+                        date_file.write(" ")
+                date_file.close()     
+                
+                
+                      
+        except:
+                pass
         
-   
+                                
+        
+  
 
     def saveTime(self):
+
         currentTime=self.timeEdit.text()
         currentTime=currentTime
         currentDate=self.dateEdit.text()        
@@ -467,21 +526,44 @@ class MATTBot(object):
         Dates.append(currentDate)
         Reminders.append(currentTime)
         Reminders.append(content_Reminder)      
-        reminder_file=open('reminders.matt','a')  
+        reminder_file=open('reminders.matt','w')  
         for i in Reminders:
             reminder_file.write(i)
             reminder_file.write(" ")
         reminder_file.close()
-        date_file=open('date.matt','a')
+        date_file=open('date.matt','w')
         for i in Dates:
             date_file.write(i)
             date_file.write(" ")
         date_file.close()
         model=QtGui.QStandardItemModel()
         self.listView.setModel(model)
+        
+        global b1
+        global a1
+        a1=0
+        b1=0
+        a="0"
+        b="0"
         for i in Reminders:
-            item = QtGui.QStandardItem(i)
-            model.appendRow(item)
+                if(Reminders.index(i)%2==0):
+                        a=str(i)       
+                if(Reminders.index(i)%2!=0):
+                        b=str(i)
+        
+                if(a!="0" and b!="0" and b!=b1 and a1!=a):
+                        val=a+"-->"+b
+                        if(val in dataViewer):
+                                a="0"
+                                b="0"                                
+                                pass
+                        else:
+                                b1=b
+                                a1=a
+                                dataViewer.append(val)
+        for i in dataViewer:
+                item = QtGui.QStandardItem(i)
+                model.appendRow(item)
 
     def recurringReminders(self):
         currentTime=self.timeEdit.text()        
@@ -504,6 +586,7 @@ class MATTBot(object):
         Reminders.clear()
         Recurring_Reminders.clear()
         Dates.clear()
+        dataViewer.clear()
         model=QtGui.QStandardItemModel()
         self.listView.setModel(model)
         for i in Reminders:
@@ -588,13 +671,15 @@ class MATTBot(object):
                 ReminderHits.append(i)
             elif(index%2==0):
                 TimeHits.append(i)
-
+        '''
         for i in Recurring_Reminders:
             index=Recurring_Reminders.index(i)
             if(index%2!=0):
                 ReminderHits2.append(i)
             elif(index%2==0):
                 TimeHits2.append(i)
+        '''
+        
               
         if (TIME  in TimeHits):           
             reminderIndex=TimeHits.index(TIME)
@@ -618,11 +703,12 @@ class MATTBot(object):
             x = msg.exec_()
 
 
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
-    ui = MATTBot()
-    ui.mattbot(Dialog)
+    ui = MATTBOTv2()
+    ui.mattbotv2(Dialog)
     Dialog.show()
     sys.exit(app.exec_())
