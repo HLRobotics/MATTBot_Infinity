@@ -225,7 +225,7 @@ class MATTBOTv2(object):
         self.pushButton_6.clicked.connect(self.Message_Sent)
         self.pushButton_5.clicked.connect(self.GetMessage)
         self.pushButton_4.clicked.connect(self.save_USER)
-        self.pushButton_3.clicked.connect(self.delete)
+        #self.pushButton_3.clicked.connect(self.delete)
         self.pushButton_8.clicked.connect(self.fanON)
         self.pushButton_9.clicked.connect(self.fanOFF)
         self.pushButton_10.clicked.connect(self.lightsON)
@@ -481,53 +481,21 @@ class MATTBOTv2(object):
             x = msg.exec_()
             self.label_6.setText("*Failed to Update MATTBOT APRICOT")
             self.progressBar.setProperty("value", 0)
-            
-    def delete(self):
-           
-        print(dataViewer)        
-        model=QtGui.QStandardItemModel()                
-        data=self.lineEdit_2.text()
-        indexOf=dataViewer.index(data)
-        dataViewer.remove(data)
-        for i in dataViewer:
-                item = QtGui.QStandardItem(i)
-                model.appendRow(item)
-        try:
-                Reminders.pop(indexOf)  
-                Dates.pop(indexOf)
-                indexOf=indexOf+1
-                Reminders.pop(indexOf)
-                reminder_file=open('reminders.matt','w')
-                for i in Reminders:
-                        reminder_file.write(i)
-                        reminder_file.write(" ")                
-                reminder_file.close()  
-                date_file=open('date.matt','w')
-                for i in Dates:
-                        date_file.write(i)
-                        date_file.write(" ")
-                date_file.close()     
-                
-                
-                      
-        except:
-                pass
-        
-                                
-        
-  
-
+      
     def saveTime(self):
 
         currentTime=self.timeEdit.text()
         currentTime=currentTime
         currentDate=self.dateEdit.text()        
-        content_Reminder=self.lineEdit_2.text()
-        Dates.append(currentDate)
-        Reminders.append(currentTime)
-        Reminders.append(content_Reminder)      
+        content_Reminder=self.lineEdit_2.text()        
+        if(currentTime in Reminders):
+            pass
+        else:
+            Reminders.append(currentTime)
+            Reminders.append(content_Reminder)  
+            Dates.append(currentDate)    
         reminder_file=open('reminders.matt','w')  
-        for i in Reminders:
+        for i in Reminders:            
             reminder_file.write(i)
             reminder_file.write(" ")
         reminder_file.close()
