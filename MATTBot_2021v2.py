@@ -204,6 +204,8 @@ class MATTBOTv2(object):
         self.label_7.setObjectName("label_7")
         self.tabWidget.addTab(self.tab_3, "")
 
+        
+
 
         self.timer = QtCore.QTimer(Dialog)
         self.timer.setInterval(1000)
@@ -232,12 +234,28 @@ class MATTBOTv2(object):
         self.pushButton_11.clicked.connect(self.lightsOFF)
         self.pushButton_7.clicked.connect(self.Send)
         self.dateEdit.setDate(QDate.currentDate())
-        try:
-            self.lineEdit_3.setText(USER[0])
-            self.lineEdit_4.setText(USER[1])
-        except:
-            self.lineEdit_3.setText("Enter your NAME")
-            self.lineEdit_4.setText("Enter your mail ID")
+        #try:
+        self.lineEdit_3.setText(USER[0])
+        self.lineEdit_4.setText(USER[1])
+        status=USER[2]
+        if(status=="True"):
+            self.checkBox.setChecked(1)
+        OS=USER[3]
+        if(OS=="Windows OS"):
+            self.comboBox_3.setCurrentIndex(1) 
+        if(OS=="Linux OS"):
+            self.comboBox_3.setCurrentIndex(2)   
+        if(OS=="MAC OS"):
+            self.comboBox_3.setCurrentIndex(3)    
+        if(OS=="Select OS"):
+            self.comboBox_3.setCurrentIndex(0) 
+
+        
+        
+        #except:
+        #    self.lineEdit_3.setText("Enter your NAME")
+        #    self.lineEdit_4.setText("Enter your mail ID")
+        
 
         model=QtGui.QStandardItemModel()
         self.listView.setModel(model)
@@ -447,14 +465,18 @@ class MATTBOTv2(object):
         mattUser=open("user.matt","w")
         data1=self.lineEdit_3.text()
         data2=self.lineEdit_4.text()
+        status=self.checkBox.isChecked()
+        os=self.comboBox_3.currentText()
         mattUser.write(data1+",")
-        mattUser.write(data2)
+        mattUser.write(data2+",")
+        mattUser.write(str(status)+",")
+        mattUser.write(os)
         mattUser.close()
         msg=QMessageBox()
         msg.setWindowTitle("MATTBOT")
-        msg.setText(str("Added New User"))       
+        msg.setText(str("Added User Configurations"))       
         x = msg.exec_()
-        self.label_6.setText("User Added. Restart MATTBot to Reflect Changes")
+       
 
     def update(self):
         try:
@@ -595,6 +617,19 @@ class MATTBOTv2(object):
         ReminderHits=[]
         TimeHits2=[]
         ReminderHits2=[]
+        protocol=self.comboBox_2.currentText()
+        OS=USER[3]
+        #print(protocol)
+        if(protocol=="IP"):
+            self.lineEdit.setText("192.168.x.x")
+        if(protocol=="Serial" and OS=="Windows OS"):
+            self.lineEdit.setText("COMx")
+        if(protocol=="Serial" and OS=="Linux OS"):
+            self.lineEdit.setText("/dev/ttyUSB0")
+        if(protocol=="Serial" and OS=="MAC OS"):
+            self.lineEdit.setText("/dev/ttyUSB0")
+        if(protocol=="Serial" and OS=="Select OS"):
+            self.lineEdit.setText("COM PORT")
         
         
         self.label_12.setText(QtCore.QDateTime.currentDateTime().time().toString())
