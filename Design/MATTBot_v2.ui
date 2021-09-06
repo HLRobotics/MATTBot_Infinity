@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
+    <width>502</width>
     <height>279</height>
    </rect>
   </property>
@@ -166,7 +166,7 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
       <string>Delete</string>
      </property>
     </widget>
-    <widget class="QPlainTextEdit" name="plainTextEdit">
+    <widget class="QListWidget" name="listWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -174,6 +174,9 @@ font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
        <width>461</width>
        <height>131</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(92, 53, 102);</string>
      </property>
     </widget>
    </widget>
@@ -231,7 +234,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>360</x>
-       <y>90</y>
+       <y>110</y>
        <width>111</width>
        <height>25</height>
       </rect>
@@ -244,7 +247,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>360</x>
-       <y>60</y>
+       <y>80</y>
        <width>111</width>
        <height>25</height>
       </rect>
@@ -285,7 +288,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>360</x>
-       <y>120</y>
+       <y>140</y>
        <width>111</width>
        <height>25</height>
       </rect>
@@ -298,7 +301,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>360</x>
-       <y>150</y>
+       <y>170</y>
        <width>111</width>
        <height>25</height>
       </rect>
@@ -311,7 +314,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>360</x>
-       <y>180</y>
+       <y>200</y>
        <width>111</width>
        <height>25</height>
       </rect>
@@ -321,6 +324,22 @@ p, li { white-space: pre-wrap; }
      </property>
      <property name="text">
       <string>Poke</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_15">
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>50</y>
+       <width>111</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(78, 154, 6);</string>
+     </property>
+     <property name="text">
+      <string>Connect</string>
      </property>
     </widget>
    </widget>
