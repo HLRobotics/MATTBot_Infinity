@@ -1,9 +1,8 @@
-'''
-Developed by:Akhil P Jacob
+"""
+Developed by Akhil P Jacob
 HLRobotics and Software Automation 2021
-'''
 
-
+"""
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QDate
@@ -15,17 +14,22 @@ from FireStorage import FirePlay
 from Seeker import timeMapper
 from HLEngine import HLEngine_dmlLite
 HLEngine_audioProcess.playAudio("Reminders\Welcome.mp3")
-
+import sqlite3
+import multitasking
+#import SCHEDULER2
+global TIME
+TIME=0
 
 class MATTBOT(object):
-    def mattbot(self, Dialog):
+    def mattbot(self, Dialog):       
         Dialog.setObjectName("Dialog")
-        Dialog.resize(505, 270)
+        Dialog.resize(502, 279)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("Design/MattBot.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
+        Dialog.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.tabWidget = QtWidgets.QTabWidget(Dialog)
-        self.tabWidget.setGeometry(QtCore.QRect(10, 10, 481, 251))
+        self.tabWidget.setGeometry(QtCore.QRect(10, 10, 481, 261))
         self.tabWidget.setStyleSheet("")
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtWidgets.QWidget()
@@ -42,10 +46,6 @@ class MATTBOT(object):
         self.lineEdit_2.setGeometry(QtCore.QRect(140, 30, 331, 25))
         self.lineEdit_2.setStyleSheet("color: rgb(164, 0, 0);")
         self.lineEdit_2.setObjectName("lineEdit_2")
-        self.listView = QtWidgets.QListView(self.tab)
-        self.listView.setGeometry(QtCore.QRect(10, 90, 461, 121))
-        self.listView.setStyleSheet("color: rgb(164, 0, 0);")
-        self.listView.setObjectName("listView")
         self.pushButton_2 = QtWidgets.QPushButton(self.tab)
         self.pushButton_2.setGeometry(QtCore.QRect(360, 60, 111, 25))
         self.pushButton_2.setObjectName("pushButton_2")
@@ -67,25 +67,29 @@ class MATTBOT(object):
         self.pushButton_3 = QtWidgets.QPushButton(self.tab)
         self.pushButton_3.setGeometry(QtCore.QRect(260, 60, 91, 25))
         self.pushButton_3.setObjectName("pushButton_3")
+        self.listWidget = QtWidgets.QListWidget(self.tab)
+        self.listWidget.setGeometry(QtCore.QRect(10, 90, 461, 131))
+        self.listWidget.setStyleSheet("color: rgb(92, 53, 102);")
+        self.listWidget.setObjectName("listWidget")
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
         self.lineEdit_5 = QtWidgets.QLineEdit(self.tab_2)
-        self.lineEdit_5.setGeometry(QtCore.QRect(110, 20, 241, 25))
+        self.lineEdit_5.setGeometry(QtCore.QRect(100, 20, 251, 25))
         self.lineEdit_5.setStyleSheet("color: rgb(52, 101, 164);")
         self.lineEdit_5.setObjectName("lineEdit_5")
         self.label_5 = QtWidgets.QLabel(self.tab_2)
-        self.label_5.setGeometry(QtCore.QRect(10, 20, 91, 20))
+        self.label_5.setGeometry(QtCore.QRect(10, 20, 71, 20))
         self.label_5.setObjectName("label_5")
         self.textEdit = QtWidgets.QTextEdit(self.tab_2)
-        self.textEdit.setGeometry(QtCore.QRect(10, 60, 341, 131))
+        self.textEdit.setGeometry(QtCore.QRect(10, 60, 341, 161))
         self.textEdit.setStyleSheet("color: rgb(204, 0, 0);")
         self.textEdit.setObjectName("textEdit")
         self.pushButton_5 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_5.setGeometry(QtCore.QRect(360, 90, 111, 25))
+        self.pushButton_5.setGeometry(QtCore.QRect(360, 110, 111, 25))
         self.pushButton_5.setObjectName("pushButton_5")
         self.pushButton_6 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_6.setGeometry(QtCore.QRect(360, 60, 111, 25))
+        self.pushButton_6.setGeometry(QtCore.QRect(360, 80, 111, 25))
         self.pushButton_6.setObjectName("pushButton_6")
         self.comboBox = QtWidgets.QComboBox(self.tab_2)
         self.comboBox.setGeometry(QtCore.QRect(360, 20, 111, 25))
@@ -94,6 +98,20 @@ class MATTBOT(object):
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
+        self.pushButton_12 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_12.setGeometry(QtCore.QRect(360, 140, 111, 25))
+        self.pushButton_12.setObjectName("pushButton_12")
+        self.pushButton_13 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_13.setGeometry(QtCore.QRect(360, 170, 111, 25))
+        self.pushButton_13.setObjectName("pushButton_13")
+        self.pushButton_14 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_14.setGeometry(QtCore.QRect(360, 200, 111, 25))
+        self.pushButton_14.setStyleSheet("background-color: rgb(204, 0, 0);")
+        self.pushButton_14.setObjectName("pushButton_14")
+        self.pushButton_15 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_15.setGeometry(QtCore.QRect(360, 50, 111, 25))
+        self.pushButton_15.setStyleSheet("background-color: rgb(78, 154, 6);")
+        self.pushButton_15.setObjectName("pushButton_15")
         self.tabWidget.addTab(self.tab_2, "")
         self.tab_5 = QtWidgets.QWidget()
         self.tab_5.setObjectName("tab_5")
@@ -118,7 +136,7 @@ class MATTBOT(object):
         self.pushButton_7.setGeometry(QtCore.QRect(380, 10, 89, 25))
         self.pushButton_7.setObjectName("pushButton_7")
         self.lineEdit = QtWidgets.QLineEdit(self.tab_5)
-        self.lineEdit.setGeometry(QtCore.QRect(160, 180, 161, 25))
+        self.lineEdit.setGeometry(QtCore.QRect(160, 180, 211, 25))
         self.lineEdit.setStyleSheet("color: rgb(85, 0, 255);")
         self.lineEdit.setObjectName("lineEdit")
         self.dial_3 = QtWidgets.QDial(self.tab_5)
@@ -179,26 +197,200 @@ class MATTBOT(object):
         self.tab_3 = QtWidgets.QWidget()
         self.tab_3.setObjectName("tab_3")
         self.textBrowser = QtWidgets.QTextBrowser(self.tab_3)
-        self.textBrowser.setGeometry(QtCore.QRect(210, 10, 256, 192))
+        self.textBrowser.setGeometry(QtCore.QRect(210, 10, 256, 201))
         self.textBrowser.setObjectName("textBrowser")
         self.label_7 = QtWidgets.QLabel(self.tab_3)
-        self.label_7.setGeometry(QtCore.QRect(10, 10, 191, 191))
+        self.label_7.setGeometry(QtCore.QRect(10, 10, 191, 201))
         self.label_7.setStyleSheet("border-image: url(Design/MattBot.png);")
         self.label_7.setText("")
         self.label_7.setObjectName("label_7")
         self.tabWidget.addTab(self.tab_3, "")
-        self.pushButton_4.clicked.connect(self.ADDUSER)
-        self.pushButton_3.clicked.connect(self.delete)
+
+        ''' Time'''
+        self.timer = QtCore.QTimer(Dialog)
+        self.timer.setInterval(1000)
+        self.timer.timeout.connect(self.displayTime)
+        self.timer.start()
+        self.dateEdit.setDate(QDate.currentDate())
+
+        ''' Startups'''
+        conn = sqlite3.connect('DATABASE/MATTBOT2.db')  
+        cursor = conn.cursor()
+        query="SELECT * from REMINDERS"        
+        cursor = conn.cursor()
+        cursor.execute(query)
+        result = cursor.fetchall();    
+        #print(result)        
+        listbro=[]
+        listbro.clear()   
+        for i in result:            
+            a=str(i)[1:-1]
+            listbro.append(a)  
+        self.listWidget.clear()
+        for i in listbro:            
+            self.listWidget.addItem(i)
+        listbro.clear()
+        conn.close()
+
         self.pushButton.clicked.connect(self.ADD_REMINDER)
-        
+        self.pushButton_2.clicked.connect(self.REMOVE_ALL_REMINDERS)
+        self.pushButton_3.clicked.connect(self.DELETE_REMINDER)
 
         self.retranslateUi(Dialog)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
+
+    def ADDUSER(self):
+        import sqlite3
+        username=str(self.lineEdit_3.text())
+        email=str(self.lineEdit_4.text())
+        os=str(self.comboBox_3.currentText())
+        status=str(self.checkBox.isChecked())
+        del_query="DELETE FROM USER"
+        query="INSERT INTO USER( NAME, MAIL, OS, VOCAL_STATUS) VALUES (?,?,?,?);"
+        conn = sqlite3.connect('DATABASE/MATTBOT2.db')  
+        cursor = conn.cursor()
+        cursor.execute(del_query)
+        conn.commit() 
+        cursor.execute(query,(username,email,os,status))
+        conn.commit()       
+        conn.close()
+        msg=QMessageBox()
+        msg.setWindowTitle("MATTBot 🤖")
+        msg.setText(str("ADDED NEW USER 🥳"))       
+        x = msg.exec_()
+
+    def REMOVE_ALL_REMINDERS(self):
+        conn = sqlite3.connect('DATABASE/MATTBOT2.db')  
+        cursor = conn.cursor()
+        del_query="DELETE FROM REMINDERS;"
+        cursor.execute(del_query)
+        conn.commit() 
+        self.listWidget.clear()
+        msg=QMessageBox()
+        msg.setWindowTitle("MATTBot 🤖")
+        msg.setText(str("CLEARED ALL REMINDERS 🥳"))       
+        x = msg.exec_()
+        conn.close()
+
+    def DELETE_REMINDER(self):
+        datatobeDeleted=self.lineEdit_2.text()
+        conn = sqlite3.connect('DATABASE/MATTBOT2.db')  
+        cursor = conn.cursor()
+        del_query="DELETE FROM REMINDERS WHERE (TOPIC=?);"
+        cursor.execute(del_query,(datatobeDeleted,))
+        conn.commit() 
+        self.listWidget.clear()
+        query="SELECT * from REMINDERS"        
+        cursor = conn.cursor()
+        cursor.execute(query)
+        result = cursor.fetchall();    
+        #print(result)
+        conn.close()
+        listbro=[]
+        listbro.clear()   
+        for i in result:            
+            a=str(i)[1:-1]
+            listbro.append(a)  
+        self.listWidget.clear()
+        for i in listbro:            
+            self.listWidget.addItem(i)
+        listbro.clear()
+        msg=QMessageBox()
+        msg.setWindowTitle("MATTBot 🤖")
+        msg.setText(str("CLEARED "+datatobeDeleted+" 🥳"))       
+        x = msg.exec_()
+        conn.close()
+
+    def ADD_REMINDER(self):
+        import sqlite3
+        reminder=self.lineEdit_2.text()
+        time=self.timeEdit.text()
+        date=self.dateEdit.text()
+        query="INSERT INTO REMINDERS( TOPIC, TIME, DATE) VALUES (?,?,?);"
+        conn = sqlite3.connect('DATABASE/MATTBOT2.db')  
+        cursor = conn.cursor()
+        cursor.execute(query,(reminder,time,date))
+        conn.commit()   
+        query="SELECT * from REMINDERS"        
+        cursor = conn.cursor()
+        cursor.execute(query)
+        result = cursor.fetchall();    
+        #print(result)
+        conn.close()
+        listbro=[]
+        listbro.clear()   
+        for i in result:            
+            a=str(i)[1:-1]
+            listbro.append(a)  
+        self.listWidget.clear()
+        for i in listbro:            
+            self.listWidget.addItem(i)
+        listbro.clear()
+        msg=QMessageBox()
+        msg.setWindowTitle("MATTBot 🤖")
+        msg.setText(str("ADDED NEW REMINDERS 🥳"))       
+        x = msg.exec_()
+
+    def displayTime(self):     
+        #import SCHEDULER2   
+        self.label_12.setText(QtCore.QDateTime.currentDateTime().time().toString())        
+        DATE=self.dateEdit.text()
+        current_time=str(self.label_12.text())
+        conn = sqlite3.connect('DATABASE/MATTBOT2.db')  
+        cursor = conn.cursor()
+        select_query="""SELECT TOPIC FROM REMINDERS WHERE TIME=? AND DATE=?;"""
+        cursor.execute(select_query,(current_time,DATE))
+        rows = cursor.fetchall()        
+        for i in rows:
+            msg=QMessageBox()
+            msg.setWindowTitle("MATTBot 🤖")
+            HLEngine_audioProcess.readText(str(i)[1:-1])
+            msg.setText(str("REMINDER:"+str(i)[1:-1]+"🤯"))       
+            x = msg.exec_()
+
+        
+
+        if(TIME==timeMapper.nine):
+            HLEngine_audioProcess.playsound("Reminders/9am.mp3")            
+        elif(TIME==timeMapper.ten):
+            HLEngine_audioProcess.playsound("Reminders/10am.mp3")
+        elif(TIME==timeMapper.eleven):
+            HLEngine_audioProcess.playsound("Reminders/11am.mp3")
+        elif(TIME==timeMapper.twelve):
+            HLEngine_audioProcess.playsound("Reminders/12pm.mp3")
+        elif(TIME==timeMapper.thirteen):
+            HLEngine_audioProcess.playsound("Reminders/1pm.mp3")
+        elif(TIME==timeMapper.fourteen):
+            HLEngine_audioProcess.playsound("Reminders/2pm.mp3")
+        elif(TIME==timeMapper.fifteen):
+            HLEngine_audioProcess.playsound("Reminders/3pm.mp3")
+        elif(TIME==timeMapper.sixteen):
+            HLEngine_audioProcess.playsound("Reminders/4pm.mp3")
+        elif(TIME==timeMapper.seventeen):
+            HLEngine_audioProcess.playsound("Reminders/5pm.mp3")
+        elif(TIME==timeMapper.eighteen):
+            HLEngine_audioProcess.playsound("Reminders/6pm.mp3")
+        elif(TIME==timeMapper.nineteen):
+            HLEngine_audioProcess.playsound("Reminders/7pm.mp3")
+        elif(TIME==timeMapper.twenty):
+            HLEngine_audioProcess.playsound("Reminders/8pm.mp3")
+        elif(TIME==timeMapper.twentyone):
+            HLEngine_audioProcess.playsound("Reminders/9pm.mp3")
+        elif(TIME==timeMapper.twentytwo):
+            HLEngine_audioProcess.playsound("Reminders/10pm.mp3")
+        elif(TIME==timeMapper.twentythree):
+            HLEngine_audioProcess.playsound("Reminders/11pm.mp3")
+        elif(TIME==timeMapper.twentyfour):
+            HLEngine_audioProcess.playsound("Reminders/12am.mp3")
+
+
+        
+
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "MATTBot 2021 ver 2.0"))
+        Dialog.setWindowTitle(_translate("Dialog", "MATTBot 2021.1"))
         self.label.setText(_translate("Dialog", "TIME"))
         self.label_2.setText(_translate("Dialog", "REMINDER"))
         self.pushButton_2.setText(_translate("Dialog", "Clear All"))
@@ -211,13 +403,18 @@ class MATTBOT(object):
         self.textEdit.setHtml(_translate("Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Ubuntu\'; font-size:11pt;\"><br /></p></body></html>"))
+"</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.pushButton_5.setText(_translate("Dialog", "Refresh"))
         self.pushButton_6.setText(_translate("Dialog", "Send"))
         self.comboBox.setItemText(0, _translate("Dialog", "BOT"))
-        self.comboBox.setItemText(1, _translate("Dialog", "LAN"))
-        self.comboBox.setItemText(2, _translate("Dialog", "UNITY"))
+        self.comboBox.setItemText(1, _translate("Dialog", "SERVER"))
+        self.comboBox.setItemText(2, _translate("Dialog", "CLIENT"))
+        self.comboBox.setItemText(3, _translate("Dialog", "CLOUD"))
+        self.pushButton_12.setText(_translate("Dialog", "Save Note"))
+        self.pushButton_13.setText(_translate("Dialog", "Delete Note"))
+        self.pushButton_14.setText(_translate("Dialog", "Poke"))
+        self.pushButton_15.setText(_translate("Dialog", "Connect"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Dialog", "Messenger"))
         self.label_8.setText(_translate("Dialog", "Speed"))
         self.label_9.setText(_translate("Dialog", "Light"))
@@ -245,71 +442,16 @@ class MATTBOT(object):
         self.textBrowser.setHtml(_translate("Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Freeware Developed by:</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">HL Robotics &amp;</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">Software Automation 2021</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">www.hlengine.tech</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">akhil.pj007@gmail.com</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">Address:</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Puthupparampil House</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Manjadi P.O Thiruvalla 689105</span></p></body></html>"))
+"</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt;\">Freeware Developed by:</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:10pt; font-weight:600;\">HL Robotics &amp;</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:10pt; font-weight:600;\">Software Automation 2021</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:10pt;\">www.hlengine.tech</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:10pt;\">akhil.pj007@gmail.com</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:10pt; font-weight:600;\">Address:</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:10pt;\">Puthupparampil House</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:10pt;\">Manjadi P.O Thiruvalla 689105</span></p></body></html>"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("Dialog", "About"))
-
-    def ADDUSER(self):
-        import sqlite3
-        username=str(self.lineEdit_3.text())
-        email=str(self.lineEdit_4.text())
-        os=str(self.comboBox_3.currentText())
-        status=str(self.checkBox.isChecked())
-        del_query="DELETE FROM USER"
-        query="INSERT INTO USER( NAME, MAIL, OS, VOCAL_STATUS) VALUES (?,?,?,?);"
-        conn = sqlite3.connect('DATABASE/MATTBOT2.db')  
-        cursor = conn.cursor()
-        cursor.execute(del_query)
-        conn.commit() 
-        cursor.execute(query,(username,email,os,status))
-        conn.commit()       
-        conn.close()
-        query="SELECT * from REMINDERS"        
-        cursor = conn.cursor()
-        result = cursor.fetchall();    
-        conn.close()
-        model=QtGui.QStandardItemModel()
-        self.listView.setModel(model)
-        ewsult2=list(result)
-
-        for i in ewsult2:
-            item = QtGui.QStandardItem(i)
-            model.appendRow(str(item))
-        
-        msg=QMessageBox()
-        msg.setWindowTitle("MATTBot 🤖")
-        msg.setText(str("Added New Reminder 🥳"))       
-        x = msg.exec_()
-
-
-    def test(self):
-        import sqlite3
-        query="SELECT * from USER"
-        conn = sqlite3.connect('DATABASE/MATTBOT2.db')  
-        cursor = conn.cursor()
-        cursor.execute(query)
-        result = cursor.fetchall();
-        print(result)
-        conn.commit()
-        conn.close()
-
-    def delete(self):
-        TOPIC=self.lineEdit_2.text()
-        import sqlite3
-        query="DELETE FROM REMINDERS WHERE (TOPIC==?)"
-        conn = sqlite3.connect('DATABASE/MATTBOT2.db')  
-        cursor = conn.cursor()
-        cursor.execute(query,(TOPIC))        
-        conn.commit()
-        print("DELETED")
-        conn.close()
 
 
 if __name__ == "__main__":
