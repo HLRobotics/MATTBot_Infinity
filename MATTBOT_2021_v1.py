@@ -6,7 +6,10 @@ HLRobotics and Software Automation 2021
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QDate
-import time
+import os
+#os.system('/home/predator/Documents/MATTBot_2021/chat.pyw')
+#from subprocess import call
+#call(["python", "chat.pyw"])
 from HLEngine import HLEngine_audioProcess
 from HLEngine import HLEngine_wiki
 import requests
@@ -19,6 +22,10 @@ import multitasking
 #import SCHEDULER2
 global TIME
 TIME=0
+config=open('user.matt','r')
+USER=config.read()
+USER=USER.split(",")
+config.close()
 
 class MATTBOT(object):
     def mattbot(self, Dialog):       
@@ -232,14 +239,176 @@ class MATTBOT(object):
         listbro.clear()
         conn.close()
 
+        self.dial_2.setMaximum(100)
+        self.dial_2.setMinimum(0)
+        self.dial_2.setValue(100)
+        self.dial_2.valueChanged.connect(self.lightAnalog)
+
+        self.dial_3.setMaximum(100)
+        self.dial_3.setMinimum(0)
+        self.dial_3.setValue(100)
+        self.dial_3.valueChanged.connect(self.fanAnalog)
+
         self.pushButton.clicked.connect(self.ADD_REMINDER)
         self.pushButton_2.clicked.connect(self.REMOVE_ALL_REMINDERS)
         self.pushButton_3.clicked.connect(self.DELETE_REMINDER)
+        self.pushButton_4.clicked.connect(self.ADDUSER)
+        self.pushButton_8.clicked.connect(self.fanON)
+        self.pushButton_9.clicked.connect(self.fanOFF)
+        self.pushButton_10.clicked.connect(self.lightsON)
+        self.pushButton_11.clicked.connect(self.lightsOFF)
+        self.pushButton_7.clicked.connect(self.Send)
+        self.pushButton_15.clicked.connect(self.LANTALK)
+
+
+        try:
+            self.lineEdit_3.setText(USER[0])
+            self.lineEdit_4.setText(USER[1])
+            print(USER[2])
+            if(USER[2]=="Linux OS"):              
+                self.comboBox_3.setCurrentIndex(2)
+            elif(USER[2]=="Windows OS"):              
+                self.comboBox_3.setCurrentIndex(1)
+            elif(USER[2]=="Mac OS"):               
+                self.comboBox_3.setCurrentIndex(3)
+            else:
+                self.comboBox_3.setCurrentIndex(0)
+            if (USER[3]=="True"):                
+                self.checkBox.setChecked(True)
+            else:
+                self.checkBox.setChecked(False)
+        except:
+            self.lineEdit_3.setText("Enter your NAME")
+            self.lineEdit_4.setText("Enter your mail ID")
 
         self.retranslateUi(Dialog)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
+
+    def Message_Sent(self):      
+        reciever=self.comboBox.currentText()    
+        if(reciever=="BOT"):   
+            query=self.lineEdit_5.text()
+            response=HLEngine_wiki.wiki(query)
+            self.textEdit.setText(response)
+            
+        elif(reciever=="CLOUD"):
+            User=self.lineEdit_3.text()  
+            Message=self.lineEdit_5.text()
+            status=FirePlay.FireData_SEND(User, Message)     
+            if(status==True):
+                self.textEdit.setText("[Message delivered]")
+
+    def fanON(self):
+        protocol=self.comboBox_2.currentText()
+        if(protocol=='IP'):
+            ip=self.lineEdit.text()
+            URL="http://"+ip+"/MOTOR=ON/"
+            try:
+                r = requests.post(url = URL)
+            except:
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Cooler On"))       
+                x = msg.exec_()
+   
+    def fanOFF(self):
+        protocol=self.comboBox_2.currentText()
+        if(protocol=='IP'):
+            ip=self.lineEdit.text()
+            URL="http://"+ip+"/MOTOR=OFF/"
+            try:
+                r = requests.post(url = URL)
+            except:
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Cooler Off"))       
+                x = msg.exec_()
+                
+    def lightsON(self):
+        protocol=self.comboBox_2.currentText()
+        if(protocol=='IP'):
+            ip=self.lineEdit.text()
+            URL="http://"+ip+"/LED=ON/"
+            try:
+                r = requests.post(url = URL)
+            except:
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Lights On"))       
+                x = msg.exec_()
+
+    def lightsOFF(self):
+        protocol=self.comboBox_2.currentText()
+        if(protocol=='IP'):
+            ip=self.lineEdit.text()
+            URL="http://"+ip+"/LED=OFF/"
+            try:
+                r = requests.post(url = URL)
+            except:
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Lights Off"))       
+                x = msg.exec_()
+
+    def lightAnalog(self):
+        IntensityData=self.dial_2.value()    
+        self.label_10.setText(str(IntensityData))    
+   
+    
+    def fanAnalog(self):
+        SpeedData=self.dial_3.value()
+        self.label_11.setText(str(SpeedData))
+
+    def Send(self):
+        protocol=self.comboBox_2.currentText()
+        if(protocol=='IP'):
+            IntensityData=self.dial_2.value() 
+            SpeedData=self.dial_3.value() 
+            if(IntensityData<=100 and IntensityData>75):
+                intensity=100   
+                config="/L100/"         
+            elif(IntensityData<=75 and IntensityData>50):
+                intensity=75
+                config="/L75/" 
+            elif(IntensityData<=50 and IntensityData>25):
+                intensity=50
+                config="/L50/" 
+            elif(IntensityData<=50 and IntensityData>0):
+                intensity=25
+                config="/L25/" 
+            
+            if(SpeedData<=100 and SpeedData>75):
+                Speed=100 
+                configFan="/M100/"            
+            elif(SpeedData<=75 and SpeedData>50):
+                Speed=75
+                configFan="/M75/" 
+            elif(SpeedData<=50 and SpeedData>25):
+                Speed=50
+                configFan="/M50/" 
+            elif(SpeedData<=50 and SpeedData>0):
+                Speed=25
+                configFan="/M25/" 
+
+            ip=self.lineEdit.text()        
+            URL="http://"+ip+config
+            try:
+                r = requests.post(url = URL)
+            except:
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Cooler Speed "+str(Speed))+"%")       
+                x = msg.exec_()
+            URL="http://"+ip+configFan
+            try:
+                r = requests.post(url = URL)
+            except:
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Lights Brightness "+str(intensity))+"%")       
+                x = msg.exec_()
 
     def ADDUSER(self):
         import sqlite3
@@ -256,6 +425,14 @@ class MATTBOT(object):
         cursor.execute(query,(username,email,os,status))
         conn.commit()       
         conn.close()
+        mattUser=open("user.matt","w")
+        data1=self.lineEdit_3.text()
+        data2=self.lineEdit_4.text()
+        mattUser.write(data1+",")
+        mattUser.write(data2+",")
+        mattUser.write(os+",")
+        mattUser.write(status)
+        mattUser.close()
         msg=QMessageBox()
         msg.setWindowTitle("MATTBot 🤖")
         msg.setText(str("ADDED NEW USER 🥳"))       
@@ -303,7 +480,10 @@ class MATTBOT(object):
         x = msg.exec_()
         conn.close()
 
-    def ADD_REMINDER(self):
+    def LANTALK(self):
+        os.system('/home/predator/Documents/MATTBot_2021/chat.pyw')
+
+    def ADD_REMINDER(self):        
         import sqlite3
         reminder=self.lineEdit_2.text()
         time=self.timeEdit.text()
@@ -335,7 +515,22 @@ class MATTBOT(object):
 
     def displayTime(self):     
         #import SCHEDULER2   
-        self.label_12.setText(QtCore.QDateTime.currentDateTime().time().toString())        
+        self.label_12.setText(QtCore.QDateTime.currentDateTime().time().toString())  
+        reciever=self.comboBox.currentText()    
+        if(reciever=="BOT"):   
+            self.pushButton_15.setDisabled(True)  
+            self.pushButton_5.setDisabled(True)      
+            self.pushButton_14.setDisabled(True) 
+            self.pushButton_6.setDisabled(False) 
+            self.pushButton_12.setDisabled(False)
+            self.pushButton_13.setDisabled(False)   
+        if(reciever=="LAN"):   
+            self.pushButton_15.setDisabled(False)  
+            self.pushButton_5.setDisabled(True)      
+            self.pushButton_14.setDisabled(True) 
+            self.pushButton_6.setDisabled(True) 
+            self.pushButton_12.setDisabled(True)
+            self.pushButton_13.setDisabled(True)
         DATE=self.dateEdit.text()
         current_time=str(self.label_12.text())
         conn = sqlite3.connect('DATABASE/MATTBOT2.db')  
@@ -408,11 +603,11 @@ class MATTBOT(object):
         self.pushButton_5.setText(_translate("Dialog", "Refresh"))
         self.pushButton_6.setText(_translate("Dialog", "Send"))
         self.comboBox.setItemText(0, _translate("Dialog", "BOT"))
-        self.comboBox.setItemText(1, _translate("Dialog", "SERVER"))
-        self.comboBox.setItemText(2, _translate("Dialog", "CLIENT"))
-        self.comboBox.setItemText(3, _translate("Dialog", "CLOUD"))
-        self.pushButton_12.setText(_translate("Dialog", "Save Note"))
-        self.pushButton_13.setText(_translate("Dialog", "Delete Note"))
+        self.comboBox.setItemText(1, _translate("Dialog", "LAN"))
+        self.comboBox.setItemText(2, _translate("Dialog", "CLOUD"))
+        #self.comboBox.setItemText(3, _translate("Dialog", "CLOUD"))
+        self.pushButton_12.setText(_translate("Dialog", "Read Note"))
+        self.pushButton_13.setText(_translate("Dialog", "Clear Note"))
         self.pushButton_14.setText(_translate("Dialog", "Poke"))
         self.pushButton_15.setText(_translate("Dialog", "Connect"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Dialog", "Messenger"))
