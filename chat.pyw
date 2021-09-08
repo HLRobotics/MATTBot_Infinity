@@ -21,6 +21,7 @@ REQUIREMENTS:
  (standard MacOS Python installation may not include up-to-date package. See: https://www.python.org/download/mac/tcltk/)
 -IPv4 (IPv6 currently not supported)
 """
+from HLEngine import HLEngine_audioProcess
 import os
 import time
 import datetime
@@ -255,6 +256,7 @@ class ChatWindow(tk.Toplevel):
     # END _fetch_local_msg()
 
     def display_msg(self, msg, text_tags=None):
+        HLEngine_audioProcess.playAudio("Reminders/notificationmp3.mp3");
         """Write msg to local chat display window.
 
         text_tags should be a tuple:

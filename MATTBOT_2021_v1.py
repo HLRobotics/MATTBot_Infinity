@@ -7,19 +7,15 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QDate
 import os
-#os.system('/home/predator/Documents/MATTBot_2021/chat.pyw')
-#from subprocess import call
-#call(["python", "chat.pyw"])
 from HLEngine import HLEngine_audioProcess
 from HLEngine import HLEngine_wiki
 import requests
 from FireStorage import FirePlay
 from Seeker import timeMapper
 from HLEngine import HLEngine_dmlLite
-HLEngine_audioProcess.playAudio("Reminders\Welcome.mp3")
+HLEngine_audioProcess.playAudio("Reminders\WELCOME.mp3")
 import sqlite3
 import multitasking
-#import SCHEDULER2
 global TIME
 TIME=0
 config=open('user.matt','r')
@@ -259,12 +255,15 @@ class MATTBOT(object):
         self.pushButton_11.clicked.connect(self.lightsOFF)
         self.pushButton_7.clicked.connect(self.Send)
         self.pushButton_15.clicked.connect(self.LANTALK)
+        self.pushButton_6.clicked.connect(self.Message_Sent)
+        self.pushButton_12.clicked.connect(self.READ)
+        self.pushButton_13.clicked.connect(self.CLEAR)
 
 
         try:
             self.lineEdit_3.setText(USER[0])
             self.lineEdit_4.setText(USER[1])
-            print(USER[2])
+            #print(USER[2])
             if(USER[2]=="Linux OS"):              
                 self.comboBox_3.setCurrentIndex(2)
             elif(USER[2]=="Windows OS"):              
@@ -285,6 +284,27 @@ class MATTBOT(object):
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
+
+    def CLEAR(self):
+        self.textEdit.setText("")
+        msg=QMessageBox()
+        msg.setWindowTitle("MATTBot 🤖")
+        msg.setText(str("CLEARED")) 
+        x = msg.exec_()
+
+    def READ(self):
+        try:
+            data=self.textEdit.toPlainText()            
+            HLEngine_audioProcess.readText(str(data))
+            
+        
+        except:
+            #HLEngine_audioProcess.readText("Sorry. cannot read")
+            msg=QMessageBox()
+            msg.setWindowTitle("MATTBot 🤖")
+            msg.setText(str("SORRY😟 CANNOT READ"))       
+            x = msg.exec_()
+        
 
     def Message_Sent(self):      
         reciever=self.comboBox.currentText()    
@@ -531,6 +551,13 @@ class MATTBOT(object):
             self.pushButton_6.setDisabled(True) 
             self.pushButton_12.setDisabled(True)
             self.pushButton_13.setDisabled(True)
+        if(reciever=="-"):   
+            self.pushButton_15.setDisabled(True)  
+            self.pushButton_5.setDisabled(True)      
+            self.pushButton_14.setDisabled(True) 
+            self.pushButton_6.setDisabled(True) 
+            self.pushButton_12.setDisabled(True)
+            self.pushButton_13.setDisabled(True)
         DATE=self.dateEdit.text()
         current_time=str(self.label_12.text())
         conn = sqlite3.connect('DATABASE/MATTBOT2.db')  
@@ -541,7 +568,12 @@ class MATTBOT(object):
         for i in rows:
             msg=QMessageBox()
             msg.setWindowTitle("MATTBot 🤖")
-            HLEngine_audioProcess.readText(str(i)[1:-1])
+            if(self.checkBox.isChecked()):
+                HLEngine_audioProcess.readText(str(i)[1:-1])
+            else:
+                HLEngine_audioProcess.playsound("Reminders/reminder.mp3")
+
+            
             msg.setText(str("REMINDER:"+str(i)[1:-1]+"🤯"))       
             x = msg.exec_()
 
@@ -604,7 +636,7 @@ class MATTBOT(object):
         self.pushButton_6.setText(_translate("Dialog", "Send"))
         self.comboBox.setItemText(0, _translate("Dialog", "BOT"))
         self.comboBox.setItemText(1, _translate("Dialog", "LAN"))
-        self.comboBox.setItemText(2, _translate("Dialog", "CLOUD"))
+        self.comboBox.setItemText(2, _translate("Dialog", "-"))
         #self.comboBox.setItemText(3, _translate("Dialog", "CLOUD"))
         self.pushButton_12.setText(_translate("Dialog", "Read Note"))
         self.pushButton_13.setText(_translate("Dialog", "Clear Note"))
@@ -619,7 +651,7 @@ class MATTBOT(object):
         self.lineEdit.setText(_translate("Dialog", "MATTWare Address Here"))
         self.label_13.setText(_translate("Dialog", "*Protocol Address:"))
         self.comboBox_2.setItemText(0, _translate("Dialog", "IP"))
-        self.comboBox_2.setItemText(1, _translate("Dialog", "Serial"))
+        self.comboBox_2.setItemText(1, _translate("Dialog", "-"))
         self.pushButton_8.setText(_translate("Dialog", "FAN ON"))
         self.pushButton_9.setText(_translate("Dialog", "FAN OFF"))
         self.pushButton_10.setText(_translate("Dialog", "LIGHTS ON"))
