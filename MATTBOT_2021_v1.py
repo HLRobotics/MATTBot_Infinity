@@ -501,7 +501,7 @@ class MATTBOT(object):
         conn.close()
 
     def LANTALK(self):
-        os.system('/home/predator/Documents/MATTBot_2021/chat.pyw')
+        os.system('chat.pyw')
 
     def ADD_REMINDER(self):        
         import sqlite3
