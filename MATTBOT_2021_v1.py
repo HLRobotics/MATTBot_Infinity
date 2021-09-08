@@ -13,7 +13,7 @@ import requests
 from FireStorage import FirePlay
 from Seeker import timeMapper
 from HLEngine import HLEngine_dmlLite
-HLEngine_audioProcess.playAudio("Reminders\WELCOME.mp3")
+HLEngine_audioProcess.playAudio("Reminders\WELCOME2.mp3")
 import sqlite3
 import multitasking
 global TIME
