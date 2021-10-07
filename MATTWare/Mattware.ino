@@ -6,8 +6,8 @@
 #include "ESP8266WiFi.h" 
 #define OLED_RESET -1
 Adafruit_SSD1306 display(128, 64, &Wire, OLED_RESET);
-const char* ssid = "GNXS-2.4G-6A83A0"; // Write here your router's username
-const char* password = "Technic@l26"; // Write here your router's passward 
+const char* ssid = "GNXS-2.4G-A15067"; // Write here your router's username
+const char* password = "mrf37600"; // Write here your router's passward 
 int FanPositive=15;
 int FanNegative=13;
 int LEDPositive=12;
@@ -621,7 +621,7 @@ if (request.indexOf("/M25") != -1) {
     display.println("Speed");   
     display.println("25%");          
     display.display(); 
-    analogWrite(MotorEnable,65);
+    analogWrite(MotorEnable,10);
     delay(2000);
 } 
 if (request.indexOf("/M50") != -1) {   
@@ -632,7 +632,7 @@ if (request.indexOf("/M50") != -1) {
     display.println("Speed");   
     display.println("50%");          
     display.display(); 
-    analogWrite(MotorEnable,127);
+    analogWrite(MotorEnable,20);
     delay(2000);
 } 
 if (request.indexOf("/M75") != -1) {   
@@ -643,7 +643,7 @@ if (request.indexOf("/M75") != -1) {
     display.println("Speed");   
     display.println("75%");          
     display.display(); 
-    analogWrite(MotorEnable,191);
+    analogWrite(MotorEnable,50);
     delay(2000);
 } 
 if (request.indexOf("/M100") != -1) {   
@@ -665,7 +665,7 @@ if (request.indexOf("/L25") != -1) {
     display.println("Light");   
     display.println("25%");          
     display.display(); 
-    analogWrite(MotorEnable,65);
+    analogWrite(LEDEnable,10);
     delay(2000);
 }
 if (request.indexOf("/L50") != -1) {   
@@ -676,7 +676,7 @@ if (request.indexOf("/L50") != -1) {
     display.println("Light");   
     display.println("50%");          
     display.display(); 
-    analogWrite(MotorEnable,127);
+    analogWrite(LEDEnable,20);
     delay(2000);
 }
 if (request.indexOf("/L75") != -1) {   
@@ -687,7 +687,7 @@ if (request.indexOf("/L75") != -1) {
     display.println("Light");   
     display.println("75%");          
     display.display(); 
-    analogWrite(MotorEnable,191);
+    analogWrite(LEDEnable,50);
     delay(2000);
 }
 if (request.indexOf("/L100") != -1) {   
@@ -698,7 +698,7 @@ if (request.indexOf("/L100") != -1) {
     display.println("Light");   
     display.println("100%");          
     display.display(); 
-    analogWrite(MotorEnable,255);
+    analogWrite(LEDEnable,255);
     delay(2000);
 }
 }
