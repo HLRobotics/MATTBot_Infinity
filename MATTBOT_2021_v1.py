@@ -10,15 +10,19 @@ import os
 from HLEngine import HLEngine_audioProcess
 from HLEngine import HLEngine_wiki
 import requests
+from Seeker import PortFinder
 from Seeker import timeMapper
 HLEngine_audioProcess.playAudio("Reminders\WELCOME2.mp3")
 import sqlite3
+import time
 global TIME
 TIME=0
 config=open('user.matt','r')
 USER=config.read()
 USER=USER.split(",")
 config.close()
+
+
 
 class MATTBOT(object):
     def mattbot(self, Dialog):       
@@ -329,6 +333,19 @@ class MATTBOT(object):
                 msg.setWindowTitle("MATTBOT")
                 msg.setText(str("MATTWARE Cooler On"))       
                 x = msg.exec_()
+        if(protocol=='Serial'):            
+            config="/MOTOR=ON/"
+            try:
+                ser=PortFinder.FindPort()
+                self.lineEdit.setText(ser)
+                ser.write(str.encode(str(config))) 
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Cooler On"))       
+                x = msg.exec_()
+            except:
+                self.lineEdit.setText("MATTWARE Not Connected") 
+                
    
     def fanOFF(self):
         protocol=self.comboBox_2.currentText()
@@ -342,6 +359,20 @@ class MATTBOT(object):
                 msg.setWindowTitle("MATTBOT")
                 msg.setText(str("MATTWARE Cooler Off"))       
                 x = msg.exec_()
+
+        if(protocol=='Serial'):            
+            config="/MOTOR=OFF/"
+            try:
+                ser=PortFinder.FindPort()
+                self.lineEdit.setText(ser)
+                ser.write(str.encode(str(config))) 
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Cooler Off"))       
+                x = msg.exec_()
+            except:
+                self.lineEdit.setText("MATTWARE Not Connected") 
+                
                 
     def lightsON(self):
         protocol=self.comboBox_2.currentText()
@@ -356,6 +387,20 @@ class MATTBOT(object):
                 msg.setText(str("MATTWARE Lights On"))       
                 x = msg.exec_()
 
+        if(protocol=='Serial'):            
+            config="/LED=ON/"
+            try:
+                ser=PortFinder.FindPort()
+                self.lineEdit.setText(ser)
+                ser.write(str.encode(str(config))) 
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Lights On"))       
+                x = msg.exec_()
+            except:
+                self.lineEdit.setText("MATTWARE Not Connected") 
+                
+
     def lightsOFF(self):
         protocol=self.comboBox_2.currentText()
         if(protocol=='IP'):
@@ -368,6 +413,20 @@ class MATTBOT(object):
                 msg.setWindowTitle("MATTBOT")
                 msg.setText(str("MATTWARE Lights Off"))       
                 x = msg.exec_()
+
+        if(protocol=='Serial'):            
+            config="/LED=OFF/"
+            try:
+                ser=PortFinder.FindPort()
+                self.lineEdit.setText(ser)
+                ser.write(str.encode(str(config))) 
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Lights Off"))       
+                x = msg.exec_()
+            except:
+                self.lineEdit.setText("MATTWARE Not Connected") 
+                
 
     def lightAnalog(self):
         IntensityData=self.dial_2.value()    
@@ -427,6 +486,53 @@ class MATTBOT(object):
                 msg.setText(str("MATTWARE Lights Brightness "+str(intensity))+"%")       
                 x = msg.exec_()
 
+        if(protocol=='Serial'):
+            
+            IntensityData=self.dial_2.value() 
+            SpeedData=self.dial_3.value() 
+            if(IntensityData<=100 and IntensityData>75):
+                intensity=100   
+                config="/L100/"         
+            elif(IntensityData<=75 and IntensityData>50):
+                intensity=75
+                config="/L75/" 
+            elif(IntensityData<=50 and IntensityData>25):
+                intensity=50
+                config="/L50/" 
+            elif(IntensityData<=50 and IntensityData>0):
+                intensity=25
+                config="/L25/" 
+            
+            if(SpeedData<=100 and SpeedData>75):
+                Speed=100 
+                configFan="/M100/"            
+            elif(SpeedData<=75 and SpeedData>50):
+                Speed=75
+                configFan="/M75/" 
+            elif(SpeedData<=50 and SpeedData>25):
+                Speed=50
+                configFan="/M50/" 
+            elif(SpeedData<=50 and SpeedData>0):
+                Speed=25
+                configFan="/M25/" 
+            try:
+                ser=PortFinder.FindPort()
+                self.lineEdit.setText(ser)                    
+                ser.write(str.encode(str(config))) 
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Lights Brightness "+str(intensity))+"%")       
+                x = msg.exec_()
+                time.sleep(1)
+                ser.write(str.encode(str(configFan)))  
+                msg=QMessageBox()
+                msg.setWindowTitle("MATTBOT")
+                msg.setText(str("MATTWARE Fan Speed "+str(Speed))+"%")       
+                x = msg.exec_()
+            except:
+                self.lineEdit.setText("MATTWARE Not Connected") 
+                
+            
     def ADDUSER(self):
         import sqlite3
         username=str(self.lineEdit_3.text())
@@ -649,7 +755,7 @@ class MATTBOT(object):
         self.lineEdit.setText(_translate("Dialog", "MATTWare Address Here"))
         self.label_13.setText(_translate("Dialog", "*Protocol Address:"))
         self.comboBox_2.setItemText(0, _translate("Dialog", "IP"))
-        self.comboBox_2.setItemText(1, _translate("Dialog", "-"))
+        self.comboBox_2.setItemText(1, _translate("Dialog", "Serial"))
         self.pushButton_8.setText(_translate("Dialog", "FAN ON"))
         self.pushButton_9.setText(_translate("Dialog", "FAN OFF"))
         self.pushButton_10.setText(_translate("Dialog", "LIGHTS ON"))
