@@ -1,6 +1,6 @@
 """
 Developed by Akhil P Jacob
-HLRobotics and Software Automation 2021
+HLRobotics and Software Automation 2021.2
 
 """
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -726,7 +726,7 @@ class MATTBOT(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "MATTBot 2021.1"))
+        Dialog.setWindowTitle(_translate("Dialog", "MATTBot 2021.2"))
         self.label.setText(_translate("Dialog", "TIME"))
         self.label_2.setText(_translate("Dialog", "REMINDER"))
         self.pushButton_2.setText(_translate("Dialog", "Clear All"))
