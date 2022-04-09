@@ -9,12 +9,14 @@ from PyQt5.QtCore import QDate
 import os
 from HLEngine import HLEngine_audioProcess
 from HLEngine import HLEngine_wiki
+from HLEngine import HLEngine_communications
 import requests
 from Seeker import PortFinder
 from Seeker import timeMapper
 HLEngine_audioProcess.playAudio("Reminders\WELCOME2.mp3")
 import sqlite3
 import time
+import serial
 global TIME
 TIME=0
 config=open('user.matt','r')
@@ -29,7 +31,7 @@ class MATTBOT(object):
         Dialog.setObjectName("Dialog")
         Dialog.resize(502, 279)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Design/MattBot.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(r"Design/MattBot.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         #Dialog.setStyleSheet("background-color: rgb(235, 228, 228);")
         self.tabWidget = QtWidgets.QTabWidget(Dialog)
@@ -313,14 +315,8 @@ class MATTBOT(object):
             query=self.lineEdit_5.text()
             response=HLEngine_wiki.wiki(query)
             self.textEdit.setText(response)
-            
-        elif(reciever=="CLOUD"):
-            User=self.lineEdit_3.text()  
-            Message=self.lineEdit_5.text()
-            status=FirePlay.FireData_SEND(User, Message)     
-            if(status==True):
-                self.textEdit.setText("[Message delivered]")
 
+            
     def fanON(self):
         protocol=self.comboBox_2.currentText()
         if(protocol=='IP'):
@@ -675,7 +671,16 @@ class MATTBOT(object):
             if(self.checkBox.isChecked()):
                 HLEngine_audioProcess.readText(str(i)[1:-1])
             else:
-                HLEngine_audioProcess.playsound("Reminders/reminder.mp3")
+                HLEngine_audioProcess.playsound(r"Reminders\reminder.mp3")
+            protocol=self.comboBox_2.currentText()
+            if(protocol=='BOOMER'):
+                try:
+                    port=str(self.lineEdit.text())
+                    ser = serial.Serial(port, '9600')   
+                    ser.write(str.encode("hi"))                 
+                except:
+                    print('BOOMER not connected ....')
+                
 
             
             msg.setText(str("REMINDER:"+str(i)[1:-1]+"🤯"))       
@@ -755,7 +760,7 @@ class MATTBOT(object):
         self.lineEdit.setText(_translate("Dialog", "MATTWare Address Here"))
         self.label_13.setText(_translate("Dialog", "*Protocol Address:"))
         self.comboBox_2.setItemText(0, _translate("Dialog", "IP"))
-        self.comboBox_2.setItemText(1, _translate("Dialog", "Serial"))
+        self.comboBox_2.setItemText(1, _translate("Dialog", "BOOMER"))
         self.pushButton_8.setText(_translate("Dialog", "FAN ON"))
         self.pushButton_9.setText(_translate("Dialog", "FAN OFF"))
         self.pushButton_10.setText(_translate("Dialog", "LIGHTS ON"))
